@@ -27,7 +27,6 @@
       --light-red: #fff1f0;
       --gray-900: #1f2933;
       --gray-700: #52606d;
-      --gray-400: #9aa7b2;
       --gray-300: #cbd5df;
       --gray-200: #dfe7ee;
       --gray-100: #f6f9fb;
@@ -54,8 +53,7 @@
 
     button,
     input,
-    select,
-    textarea {
+    select {
       font: inherit;
     }
 
@@ -65,8 +63,7 @@
 
     button:focus-visible,
     input:focus-visible,
-    select:focus-visible,
-    textarea:focus-visible {
+    select:focus-visible {
       outline: 4px solid rgba(242, 183, 5, 0.55);
       outline-offset: 3px;
     }
@@ -793,7 +790,7 @@
         <p>☐ Calculate slope from labeled points.</p>
         <p>☐ Write a line in slope-intercept form.</p>
         <p>☐ Identify an equivalent standard-form equation.</p>
-        <p>☐ Identify an equivalent point-slope equation.</p>
+        <p>☐ Identify point-slope form using Point C.</p>
 
         <p style="margin-bottom: 0;">
           ☐ Write an equation for a parallel or perpendicular line.
@@ -806,8 +803,8 @@
         </h3>
 
         <p>
-          A digital whiteboard is available throughout the activity for
-          rise-over-run calculations and equation conversions.
+          A digital whiteboard is available throughout the activity
+          for rise-over-run calculations and equation conversions.
         </p>
 
         <p style="margin-bottom: 0;">
@@ -1178,7 +1175,7 @@
 
               <tr>
                 <td>
-                  Point-Slope Form
+                  Point-Slope Form Using Point C
                 </td>
 
                 <td>
@@ -1282,7 +1279,7 @@
     "use strict";
 
     const ACTIVITY_VERSION =
-      "U6W1-LINEAR-GRAPH-2.0";
+      "U6W1-LINEAR-GRAPH-2.1";
 
     const state = {
       studentName: "",
@@ -1292,7 +1289,7 @@
       totalChecks: 0,
       line: null,
       standardChoices: [],
-      pointSlopeChoices: [],
+      pointSlopeChoices: null,
       relationshipProblem: null,
       timerId: null
     };
@@ -1433,20 +1430,6 @@
       };
     }
 
-    function fractionsEqual(
-      firstNumerator,
-      firstDenominator,
-      secondNumerator,
-      secondDenominator
-    ) {
-      return (
-        firstNumerator *
-        secondDenominator ===
-        secondNumerator *
-        firstDenominator
-      );
-    }
-
     function formatFraction(
       numerator,
       denominator
@@ -1468,71 +1451,6 @@
       return (
         `${reduced.numerator}/` +
         `${reduced.denominator}`
-      );
-    }
-
-    function formatSignedNumber(
-      value
-    ) {
-      return value < 0
-        ? `- ${Math.abs(value)}`
-        : `+ ${value}`;
-    }
-
-    function formatSlopeX(
-      numerator,
-      denominator
-    ) {
-      const reduced =
-        reduceFraction(
-          numerator,
-          denominator
-        );
-
-      if (
-        reduced.denominator === 1
-      ) {
-        if (
-          reduced.numerator === 1
-        ) {
-          return "x";
-        }
-
-        if (
-          reduced.numerator === -1
-        ) {
-          return "-x";
-        }
-
-        return `${reduced.numerator}x`;
-      }
-
-      return (
-        `(${reduced.numerator}/` +
-        `${reduced.denominator})x`
-      );
-    }
-
-    function formatSlopeIntercept(
-      numerator,
-      denominator,
-      intercept
-    ) {
-      const xTerm =
-        formatSlopeX(
-          numerator,
-          denominator
-        );
-
-      if (intercept === 0) {
-        return `y = ${xTerm}`;
-      }
-
-      return (
-        `y = ${xTerm} ` +
-        formatSignedNumber(
-          intercept
-        )
       );
     }
 
@@ -1902,144 +1820,165 @@
     }
 
     function createPointSlopeChoices(line) {
-      const point =
-        choose([
-          line.xPoint,
-          line.yPoint,
-          line.thirdPoint
-        ]);
+      /*
+        Challenge 4 always requires Point C.
 
-      const correctText =
-        formatPointSlope(
-          line.numerator,
-          line.denominator,
-          point.x,
-          point.y
+        Every choice is built from Point C or an intentionally
+        incorrect version of Point C. Another valid point from the line
+        is never used as a distractor.
+      */
+
+      const point = {
+        x: line.thirdPoint.x,
+        y: line.thirdPoint.y
+      };
+
+      const choices = [
+        {
+          text:
+            formatPointSlope(
+              line.numerator,
+              line.denominator,
+              point.x,
+              point.y
+            ),
+          correct: true
+        },
+
+        {
+          text:
+            formatPointSlope(
+              -line.numerator,
+              line.denominator,
+              point.x,
+              point.y
+            ),
+          correct: false
+        },
+
+        {
+          text:
+            formatPointSlope(
+              line.numerator,
+              line.denominator,
+              point.x + 1,
+              point.y
+            ),
+          correct: false
+        },
+
+        {
+          text:
+            formatPointSlope(
+              line.numerator,
+              line.denominator,
+              point.x,
+              point.y + 1
+            ),
+          correct: false
+        }
+      ];
+
+      const uniqueTexts =
+        new Set(
+          choices.map(
+            choice => choice.text
+          )
         );
 
-      const wrongSlopeText =
-        formatPointSlope(
-          -line.numerator,
-          line.denominator,
-          point.x,
-          point.y
-        );
-
-      const wrongXSignText =
-        (
-          `${formatYDifference(point.y)} = ` +
-          `${formatFraction(
-            line.numerator,
-            line.denominator
-          )}` +
-          `${
-            point.x >= 0
-              ? `(x + ${point.x})`
-              : `(x - ${Math.abs(point.x)})`
-          }`
-        );
-
-      const wrongYSignText =
-        (
-          `${
-            point.y >= 0
-              ? `y + ${point.y}`
-              : `y - ${Math.abs(point.y)}`
-          } = ` +
-          `${formatFraction(
-            line.numerator,
-            line.denominator
-          )}` +
-          `${formatParenthetical(point.x)}`
-        );
-
-      let choices =
-        uniqueChoices([
-          {
-            text: correctText,
-            correct: true
-          },
-          {
-            text: wrongSlopeText,
-            correct: false
-          },
-          {
-            text: wrongXSignText,
-            correct: false
-          },
-          {
-            text: wrongYSignText,
-            correct: false
-          }
-        ]);
-
-      let adjustment = 1;
-
-      while (
-        choices.length < 4
+      if (
+        uniqueTexts.size !==
+        choices.length
       ) {
-        choices =
-          uniqueChoices([
-            ...choices,
-            {
-              text:
-                formatPointSlope(
-                  line.numerator,
-                  line.denominator,
-                  point.x + adjustment,
-                  point.y
-                ),
-              correct: false
-            }
-          ]);
+        throw new Error(
+          "Challenge 4 generated duplicate answer choices."
+        );
+      }
 
-        adjustment += 1;
+      const correctCount =
+        choices.filter(
+          choice => choice.correct
+        ).length;
+
+      if (correctCount !== 1) {
+        throw new Error(
+          "Challenge 4 must have exactly one correct response."
+        );
       }
 
       return {
         point,
+        pointLabel: "C",
         choices:
-          shuffle(
-            choices.slice(0, 4)
-          )
+          shuffle(choices)
       };
     }
 
-    function equationThroughPoint(
-      numerator,
-      denominator,
-      point
+    function validatePointSlopeChallenge(
+      line,
+      challenge
     ) {
-      const interceptFraction =
-        reduceFraction(
-          point.y *
-            denominator -
-            numerator *
-            point.x,
-          denominator
+      if (
+        !challenge ||
+        !challenge.point ||
+        !Array.isArray(
+          challenge.choices
+        )
+      ) {
+        return false;
+      }
+
+      if (
+        challenge.point.x !==
+          line.thirdPoint.x ||
+        challenge.point.y !==
+          line.thirdPoint.y
+      ) {
+        return false;
+      }
+
+      if (
+        challenge.choices.length !== 4
+      ) {
+        return false;
+      }
+
+      const correctChoices =
+        challenge.choices.filter(
+          choice => choice.correct
         );
 
-      return {
-        numerator,
-        denominator,
-        point,
-        interceptNumerator:
-          interceptFraction.numerator,
-        interceptDenominator:
-          interceptFraction.denominator
-      };
-    }
+      if (
+        correctChoices.length !== 1
+      ) {
+        return false;
+      }
 
-    function formatLineFromSlopeAndPoint(
-      numerator,
-      denominator,
-      point
-    ) {
-      return formatPointSlope(
-        numerator,
-        denominator,
-        point.x,
-        point.y
+      const displayedEquations =
+        challenge.choices.map(
+          choice => choice.text
+        );
+
+      if (
+        new Set(
+          displayedEquations
+        ).size !==
+        displayedEquations.length
+      ) {
+        return false;
+      }
+
+      const expectedEquation =
+        formatPointSlope(
+          line.numerator,
+          line.denominator,
+          line.thirdPoint.x,
+          line.thirdPoint.y
+        );
+
+      return (
+        correctChoices[0].text ===
+        expectedEquation
       );
     }
 
@@ -2068,6 +2007,7 @@
         point = {
           x:
             randomInteger(-5, 5),
+
           y:
             randomInteger(-5, 5)
         };
@@ -2078,87 +2018,82 @@
         )
       );
 
-      const correctText =
-        formatLineFromSlopeAndPoint(
-          targetSlope.numerator,
-          targetSlope.denominator,
-          point
-        );
-
-      const originalSlopeText =
-        formatLineFromSlopeAndPoint(
-          line.numerator,
-          line.denominator,
-          point
-        );
-
       const reciprocalWithoutNegative =
         reduceFraction(
           line.denominator,
           line.numerator
         );
 
-      const reciprocalText =
-        formatLineFromSlopeAndPoint(
-          reciprocalWithoutNegative.numerator,
-          reciprocalWithoutNegative.denominator,
-          point
-        );
+      const choices = [
+        {
+          text:
+            formatPointSlope(
+              targetSlope.numerator,
+              targetSlope.denominator,
+              point.x,
+              point.y
+            ),
+          correct: true
+        },
 
-      const wrongPointText =
-        formatLineFromSlopeAndPoint(
-          targetSlope.numerator,
-          targetSlope.denominator,
-          {
-            x: point.x + 1,
-            y: point.y
-          }
-        );
+        {
+          text:
+            formatPointSlope(
+              line.numerator,
+              line.denominator,
+              point.x,
+              point.y
+            ),
+          correct: false
+        },
 
-      let choices =
-        uniqueChoices([
-          {
-            text: correctText,
-            correct: true
-          },
-          {
-            text: originalSlopeText,
-            correct: false
-          },
-          {
-            text: reciprocalText,
-            correct: false
-          },
-          {
-            text: wrongPointText,
-            correct: false
-          }
-        ]);
+        {
+          text:
+            formatPointSlope(
+              reciprocalWithoutNegative.numerator,
+              reciprocalWithoutNegative.denominator,
+              point.x,
+              point.y
+            ),
+          correct: false
+        },
+
+        {
+          text:
+            formatPointSlope(
+              targetSlope.numerator,
+              targetSlope.denominator,
+              point.x + 1,
+              point.y
+            ),
+          correct: false
+        }
+      ];
+
+      let unique =
+        uniqueChoices(choices);
 
       let adjustment = 1;
 
       while (
-        choices.length < 4
+        unique.length < 4
       ) {
-        choices =
+        unique =
           uniqueChoices([
-            ...choices,
+            ...unique,
             {
               text:
-                formatLineFromSlopeAndPoint(
+                formatPointSlope(
                   -targetSlope.numerator,
                   targetSlope.denominator,
-                  point
+                  point.x,
+                  point.y + adjustment
                 ),
               correct: false
             }
           ]);
 
         adjustment += 1;
-
-        if (adjustment > 3) {
-          break;
-        }
       }
 
       return {
@@ -2167,7 +2102,7 @@
         targetSlope,
         choices:
           shuffle(
-            choices.slice(0, 4)
+            unique.slice(0, 4)
           )
       };
     }
@@ -2176,6 +2111,7 @@
       const size = 560;
       const padding = 48;
       const limit = 10;
+
       const plotSize =
         size - 2 * padding;
 
@@ -2326,7 +2262,7 @@
             <rect
               x="${toX(point.x) + 9}"
               y="${toY(point.y) - 29}"
-              width="74"
+              width="82"
               height="25"
               rx="5"
               fill="#ffffff"
@@ -2335,7 +2271,7 @@
             />
 
             <text
-              x="${toX(point.x) + 46}"
+              x="${toX(point.x) + 50}"
               y="${toY(point.y) - 12}"
               text-anchor="middle"
               font-family="Arial"
@@ -2354,6 +2290,17 @@
           role="img"
           aria-label="Coordinate graph of a line through labeled points A, B, and C"
         >
+          <defs>
+            <clipPath id="plotClip">
+              <rect
+                x="${padding}"
+                y="${padding}"
+                width="${plotSize}"
+                height="${plotSize}"
+              />
+            </clipPath>
+          </defs>
+
           <rect
             x="${padding}"
             y="${padding}"
@@ -2377,17 +2324,6 @@
             stroke-linecap="round"
             clip-path="url(#plotClip)"
           />
-
-          <defs>
-            <clipPath id="plotClip">
-              <rect
-                x="${padding}"
-                y="${padding}"
-                width="${plotSize}"
-                height="${plotSize}"
-              />
-            </clipPath>
-          </defs>
 
           ${pointMarkup}
 
@@ -2441,7 +2377,7 @@
 
         <div class="point-chip">
           C (${state.line.thirdPoint.x}, ${state.line.thirdPoint.y})
-          — additional point
+          — required for Challenge 4
         </div>
 
         <p style="margin-bottom: 0;">
@@ -2640,9 +2576,8 @@
         </div>
 
         <p class="field-help">
-          Enter a negative value for b when the y-intercept is below
-          zero. The displayed plus sign represents adding the signed
-          value of b.
+          Enter b as a signed number. For example, enter -4 when the
+          line crosses the y-axis at -4.
         </p>
       `;
     }
@@ -2706,16 +2641,27 @@
             Directions
           </h3>
 
-          <p style="margin-bottom: 0;">
-            Select the point-slope equation that uses the graph’s slope
-            and the labeled point
-            <strong>(${point.x}, ${point.y})</strong>.
+          <p>
+            Use
+            <strong>Point C (${point.x}, ${point.y})</strong>
+            and the slope of the graphed line.
           </p>
+
+          <p style="margin-bottom: 0;">
+            Select the equation that correctly substitutes Point C
+            into
+            <strong>y − y₁ = m(x − x₁)</strong>.
+          </p>
+        </div>
+
+        <div class="equation-display">
+          Required point: C (${point.x}, ${point.y})
         </div>
 
         <fieldset class="field">
           <legend class="field-label">
-            Which equation is equivalent to the graphed line?
+            Which point-slope equation uses Point C and the correct
+            slope?
           </legend>
 
           <div class="choice-list">
@@ -3064,7 +3010,7 @@
         return {
           valid: false,
           message:
-            "That equation is not equivalent to the graphed line. Recheck how the x-term, y-term, and constant move between forms."
+            "That equation is not equivalent to the graphed line. Recheck the signs and coefficients."
         };
       }
 
@@ -3087,15 +3033,15 @@
         };
       }
 
-      if (
-        !state.pointSlopeChoices
-          .choices[selected]
-          .correct
-      ) {
+      const selectedChoice =
+        state.pointSlopeChoices
+          .choices[selected];
+
+      if (!selectedChoice.correct) {
         return {
           valid: false,
           message:
-            "That equation does not use both the correct slope and the displayed point. Recheck the signs in y − y₁ = m(x − x₁)."
+            "That equation does not correctly use both Point C and the slope of the graphed line. Recheck the signs in y − y₁ = m(x − x₁)."
         };
       }
 
@@ -3212,6 +3158,17 @@
             state.line
           );
 
+        if (
+          !validatePointSlopeChallenge(
+            state.line,
+            state.pointSlopeChoices
+          )
+        ) {
+          throw new Error(
+            "Challenge 4 failed point-slope validation."
+          );
+        }
+
         state.relationshipProblem =
           generateRelationshipProblem(
             state.line
@@ -3247,7 +3204,7 @@
           );
 
         feedback.textContent =
-          "The activity could not generate a valid graph. Refresh the page and try again.";
+          "The activity could not generate a valid problem. Refresh the page and try again.";
 
         feedback.classList.remove(
           "hidden"
