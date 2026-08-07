@@ -1,3703 +1,4945 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
-
-  <title>
-    Algebra 1 | U6L1 Linear Graph Challenge
-  </title>
-
-  <style>
-    :root {
-      --navy: #0f2d44;
-      --blue: #2f80a8;
-      --light-blue: #f0f7fb;
-      --green: #2f7d46;
-      --light-green: #eefaf1;
-      --yellow: #f2b705;
-      --light-yellow: #fff8e6;
-      --purple: #79518d;
-      --light-purple: #f6f0f8;
-      --red: #b42318;
-      --light-red: #fff1f0;
-      --gray-900: #1f2933;
-      --gray-700: #52606d;
-      --gray-300: #cbd5df;
-      --gray-200: #dfe7ee;
-      --gray-100: #f6f9fb;
-      --white: #ffffff;
-      --shadow: 0 8px 24px rgba(15, 45, 68, 0.12);
-      --radius: 12px;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      margin: 0;
-      background: #edf3f7;
-      color: var(--gray-900);
-      font-family: Arial, Helvetica, sans-serif;
-      line-height: 1.55;
-    }
-
-    button,
-    input,
-    select {
-      font: inherit;
-    }
-
-    button {
-      cursor: pointer;
-    }
-
-    button:focus-visible,
-    input:focus-visible,
-    select:focus-visible {
-      outline: 4px solid rgba(242, 183, 5, 0.55);
-      outline-offset: 3px;
-    }
-
-    fieldset {
-      min-width: 0;
-    }
-
-    .hidden {
-      display: none !important;
-    }
-
-    .app-shell {
-      width: min(1120px, calc(100% - 24px));
-      margin: 20px auto 50px;
-    }
-
-    .hero {
-      padding: 26px;
-      border-radius: var(--radius);
-      background: var(--navy);
-      color: var(--white);
-      box-shadow: var(--shadow);
-    }
-
-    .hero h1 {
-      margin: 0;
-      font-size: clamp(1.7rem, 4vw, 2.4rem);
-      line-height: 1.2;
-    }
-
-    .hero p {
-      margin: 8px 0 0;
-      font-size: 1.08rem;
-    }
-
-    .panel {
-      margin-top: 16px;
-      padding: 22px;
-      border: 1px solid var(--gray-200);
-      border-radius: var(--radius);
-      background: var(--white);
-      box-shadow: var(--shadow);
-    }
-
-    .panel h2,
-    .panel h3 {
-      color: var(--navy);
-    }
-
-    .panel h2 {
-      margin-top: 0;
-    }
-
-    .callout {
-      margin: 15px 0;
-      padding: 17px;
-      border-left: 6px solid;
-      border-radius: 9px;
-    }
-
-    .callout h2,
-    .callout h3 {
-      margin-top: 0;
-      color: var(--navy);
-    }
-
-    .callout-blue {
-      border-color: var(--blue);
-      background: var(--light-blue);
-    }
-
-    .callout-green {
-      border-color: var(--green);
-      background: var(--light-green);
-    }
-
-    .callout-yellow {
-      border-color: var(--yellow);
-      background: var(--light-yellow);
-    }
-
-    .callout-purple {
-      border-color: var(--purple);
-      background: var(--light-purple);
-    }
-
-    .status-bar {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 10px;
-      margin: 14px 0;
-    }
-
-    .status-item {
-      padding: 12px;
-      border: 1px solid var(--gray-200);
-      border-radius: 10px;
-      background: var(--white);
-      text-align: center;
-      box-shadow: 0 3px 10px rgba(15, 45, 68, 0.06);
-    }
-
-    .status-label {
-      display: block;
-      color: var(--gray-700);
-      font-size: 0.78rem;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-    }
-
-    .status-value {
-      display: block;
-      margin-top: 3px;
-      color: var(--navy);
-      font-weight: 700;
-    }
-
-    .progress-strip {
-      display: grid;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
-      gap: 8px;
-    }
-
-    .progress-step {
-      padding: 10px 5px;
-      border: 2px solid var(--gray-300);
-      border-radius: 8px;
-      background: var(--gray-100);
-      color: var(--gray-700);
-      font-size: 0.8rem;
-      font-weight: 700;
-      text-align: center;
-    }
-
-    .progress-step.current {
-      border-color: var(--blue);
-      background: var(--light-blue);
-      color: var(--navy);
-    }
-
-    .progress-step.complete {
-      border-color: var(--green);
-      background: var(--light-green);
-      color: var(--green);
-    }
-
-    .progress-track {
-      height: 15px;
-      margin-top: 14px;
-      overflow: hidden;
-      border-radius: 999px;
-      background: var(--gray-200);
-    }
-
-    .progress-fill {
-      width: 0;
-      height: 100%;
-      background: var(--green);
-      transition: width 0.25s ease;
-    }
-
-    .progress-text {
-      margin: 7px 0 0;
-      color: var(--gray-700);
-      text-align: center;
-      font-weight: 700;
-    }
-
-    .name-grid,
-    .input-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px;
-    }
-
-    .field {
-      margin-top: 14px;
-    }
-
-    .field label,
-    .field-label {
-      display: block;
-      margin-bottom: 6px;
-      color: var(--navy);
-      font-weight: 700;
-    }
-
-    .field input,
-    .field select {
-      width: 100%;
-      padding: 11px;
-      border: 2px solid var(--gray-300);
-      border-radius: 8px;
-      background: var(--white);
-      color: var(--gray-900);
-    }
-
-    .field-help {
-      margin: 5px 0 0;
-      color: var(--gray-700);
-      font-size: 0.9rem;
-    }
-
-    .problem-card {
-      padding: 20px;
-      border: 1px solid var(--gray-200);
-      border-radius: 10px;
-      background: var(--gray-100);
-    }
-
-    .problem-kicker {
-      margin: 0;
-      color: var(--green);
-      font-size: 0.86rem;
-      font-weight: 700;
-      letter-spacing: 0.09em;
-      text-transform: uppercase;
-    }
-
-    .graph-layout {
-      display: grid;
-      grid-template-columns: minmax(0, 1.15fr) minmax(300px, 0.85fr);
-      gap: 18px;
-      align-items: start;
-      margin-top: 16px;
-    }
-
-    .graph-card {
-      padding: 13px;
-      border: 3px solid var(--blue);
-      border-radius: 10px;
-      background: var(--white);
-    }
-
-    .graph-card h3 {
-      margin: 0 0 10px;
-      text-align: center;
-    }
-
-    .graph-card svg {
-      display: block;
-      width: 100%;
-      height: auto;
-    }
-
-    .point-list {
-      padding: 17px;
-      border-left: 6px solid var(--green);
-      border-radius: 9px;
-      background: var(--light-green);
-    }
-
-    .point-list h3 {
-      margin-top: 0;
-    }
-
-    .point-chip {
-      margin: 8px 0;
-      padding: 10px;
-      border: 1px solid #b8d8c2;
-      border-radius: 7px;
-      background: var(--white);
-      color: var(--navy);
-      font-family: "Courier New", Courier, monospace;
-      font-size: 1.05rem;
-      font-weight: 700;
-    }
-
-    .equation-display {
-      margin: 16px 0;
-      padding: 18px;
-      border: 3px solid var(--blue);
-      border-radius: 10px;
-      background: var(--white);
-      color: var(--navy);
-      font-family: "Courier New", Courier, monospace;
-      font-size: clamp(1.15rem, 4vw, 1.55rem);
-      font-weight: 700;
-      text-align: center;
-    }
-
-    .equation-template {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 9px;
-      align-items: center;
-      justify-content: center;
-      margin: 18px 0;
-      padding: 18px;
-      border: 2px solid var(--blue);
-      border-radius: 10px;
-      background: var(--white);
-      color: var(--navy);
-      font-family: "Courier New", Courier, monospace;
-      font-size: 1.25rem;
-      font-weight: 700;
-    }
-
-    .equation-template input {
-      width: 110px;
-      padding: 9px;
-      border: 2px solid var(--gray-300);
-      border-radius: 7px;
-      text-align: center;
-    }
-
-    .choice-list {
-      display: grid;
-      gap: 10px;
-      margin-top: 12px;
-    }
-
-    .choice {
-      display: flex;
-      gap: 10px;
-      align-items: flex-start;
-      padding: 13px;
-      border: 1px solid var(--gray-300);
-      border-radius: 8px;
-      background: var(--white);
-    }
-
-    .choice input {
-      width: auto;
-      margin-top: 4px;
-    }
-
-    .choice-equation {
-      color: var(--navy);
-      font-family: "Courier New", Courier, monospace;
-      font-size: 1.05rem;
-      font-weight: 700;
-    }
-
-    .whiteboard-section {
-      margin-top: 20px;
-      padding: 16px;
-      border: 2px solid var(--gray-300);
-      border-radius: 10px;
-      background: var(--white);
-    }
-
-    .whiteboard-section h3 {
-      margin-top: 0;
-    }
-
-    .whiteboard-toolbar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      align-items: center;
-      margin-bottom: 10px;
-    }
-
-    .toolbar-group {
-      display: flex;
-      gap: 7px;
-      align-items: center;
-      padding-right: 10px;
-      border-right: 1px solid var(--gray-300);
-    }
-
-    .toolbar-group:last-child {
-      border-right: 0;
-    }
-
-    .toolbar-label {
-      color: var(--gray-700);
-      font-size: 0.87rem;
-      font-weight: 700;
-    }
-
-    .tool-button {
-      min-height: 39px;
-      padding: 8px 11px;
-      border: 2px solid var(--gray-300);
-      border-radius: 7px;
-      background: var(--white);
-      color: var(--navy);
-      font-weight: 700;
-    }
-
-    .tool-button.active {
-      border-color: var(--navy);
-      background: var(--navy);
-      color: var(--white);
-    }
-
-    .whiteboard-wrap {
-      position: relative;
-      width: 100%;
-      height: 360px;
-      overflow: hidden;
-      border: 2px solid var(--navy);
-      border-radius: 8px;
-      background: var(--white);
-      touch-action: none;
-    }
-
-    .whiteboard-wrap.grid {
-      background-image:
-        linear-gradient(to right, #dce5eb 1px, transparent 1px),
-        linear-gradient(to bottom, #dce5eb 1px, transparent 1px);
-      background-size: 25px 25px;
-    }
-
-    .whiteboard {
-      display: block;
-      width: 100%;
-      height: 100%;
-      cursor: crosshair;
-      touch-action: none;
-    }
-
-    .button-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      align-items: center;
-      margin-top: 18px;
-    }
-
-    .button {
-      display: inline-block;
-      min-height: 46px;
-      padding: 11px 18px;
-      border: 2px solid transparent;
-      border-radius: 9px;
-      font-weight: 700;
-      text-align: center;
-      text-decoration: none;
-    }
-
-    .button-primary {
-      background: var(--navy);
-      color: var(--white);
-    }
-
-    .button-secondary {
-      background: var(--green);
-      color: var(--white);
-    }
-
-    .button-danger {
-      border-color: var(--red);
-      background: var(--white);
-      color: var(--red);
-    }
-
-    .feedback {
-      margin-top: 16px;
-      padding: 15px;
-      border-left: 6px solid var(--blue);
-      border-radius: 8px;
-      background: var(--light-blue);
-      color: var(--navy);
-      font-weight: 700;
-    }
-
-    .feedback.success {
-      border-color: var(--green);
-      background: var(--light-green);
-      color: #1e5b32;
-    }
-
-    .feedback.error {
-      border-color: var(--red);
-      background: var(--light-red);
-      color: #86170f;
-    }
-
-    .certificate {
-      position: relative;
-      overflow: hidden;
-      padding: 34px;
-      border: 8px double var(--navy);
-      border-radius: 14px;
-      background: var(--white);
-      box-shadow: var(--shadow);
-    }
-
-    .certificate::before {
-      position: absolute;
-      inset: 12px;
-      border: 1px solid var(--gray-300);
-      border-radius: 6px;
-      content: "";
-      pointer-events: none;
-    }
-
-    .certificate-content {
-      position: relative;
-      z-index: 1;
-    }
-
-    .certificate-kicker {
-      margin: 0;
-      color: var(--green);
-      font-size: 0.9rem;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-align: center;
-      text-transform: uppercase;
-    }
-
-    .certificate h2 {
-      margin: 8px 0;
-      color: var(--navy);
-      font-size: clamp(1.8rem, 5vw, 2.7rem);
-      text-align: center;
-    }
-
-    .certificate-name {
-      margin: 18px auto;
-      padding-bottom: 6px;
-      border-bottom: 2px solid var(--navy);
-      color: var(--navy);
-      font-size: clamp(1.5rem, 4vw, 2.15rem);
-      font-weight: 700;
-      text-align: center;
-    }
-
-    .certificate-statement {
-      max-width: 790px;
-      margin: 0 auto 18px;
-      text-align: center;
-    }
-
-    .mastery-table {
-      width: 100%;
-      max-width: 790px;
-      margin: 20px auto;
-      border-collapse: collapse;
-    }
-
-    .mastery-table th,
-    .mastery-table td {
-      padding: 10px;
-      border: 1px solid var(--gray-300);
-      text-align: left;
-    }
-
-    .mastery-table th {
-      background: var(--navy);
-      color: var(--white);
-    }
-
-    .certificate-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 8px 20px;
-      max-width: 790px;
-      margin: 20px auto;
-    }
-
-    .certificate-data {
-      padding: 9px;
-      border-bottom: 1px solid var(--gray-300);
-    }
-
-    .verification-box {
-      max-width: 790px;
-      margin: 20px auto 0;
-      padding: 12px;
-      border: 2px dashed var(--green);
-      border-radius: 8px;
-      background: var(--light-green);
-      text-align: center;
-    }
-
-    .verification-code {
-      display: block;
-      margin-top: 4px;
-      font-family: "Courier New", monospace;
-      font-size: 1.1rem;
-      font-weight: 700;
-      letter-spacing: 0.05em;
-    }
-
-    .screen-reader-only {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      white-space: nowrap;
-    }
-
-    @media (max-width: 880px) {
-      .graph-layout {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 720px) {
-      .status-bar {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
-      .name-grid,
-      .input-grid,
-      .certificate-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .progress-strip {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-    }
-
-    @media (max-width: 540px) {
-      .app-shell {
-        width: min(100% - 12px, 1120px);
-        margin-top: 6px;
-      }
-
-      .hero,
-      .panel,
-      .certificate {
-        padding: 17px;
-      }
-
-      .button {
-        width: 100%;
-      }
-
-      .toolbar-group {
-        width: 100%;
-        padding: 0 0 8px;
-        border-right: 0;
-        border-bottom: 1px solid var(--gray-300);
-      }
-
-      .whiteboard-wrap {
-        height: 300px;
-      }
-    }
-
-    @media print {
-      @page {
-        size: letter portrait;
-        margin: 0.4in;
-      }
-
-      body {
-        background: var(--white);
-      }
-
-      body * {
-        visibility: hidden !important;
-      }
-
-      #completionScreen,
-      #completionScreen * {
-        visibility: visible !important;
-      }
-
-      #completionScreen {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        margin: 0;
-        padding: 0;
-      }
-
-      .certificate {
-        min-height: 9.4in;
-        box-shadow: none;
-        break-inside: avoid;
-      }
-
-      .no-print {
-        display: none !important;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
+
+<title>Algebra 1 | U6L1 Linear Graph Challenge</title>
+
+<style>
+:root{
+  --navy:#0f2d44;
+  --blue:#2f80a8;
+  --light-blue:#f0f7fb;
+  --green:#2f7d46;
+  --light-green:#eefaf1;
+  --yellow:#f2b705;
+  --light-yellow:#fff8e6;
+  --purple:#79518d;
+  --light-purple:#f6f0f8;
+  --red:#b42318;
+  --light-red:#fff1f0;
+  --gray-900:#1f2933;
+  --gray-700:#52606d;
+  --gray-300:#cbd5df;
+  --gray-200:#dfe7ee;
+  --gray-100:#f6f9fb;
+  --white:#ffffff;
+  --shadow:0 8px 24px rgba(15,45,68,.12);
+  --radius:12px;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  margin:0;
+  background:#edf3f7;
+  color:var(--gray-900);
+  font-family:Arial,Helvetica,sans-serif;
+  line-height:1.55;
+}
+
+button,
+input,
+select{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible{
+  outline:4px solid rgba(242,183,5,.55);
+  outline-offset:3px;
+}
+
+fieldset{
+  min-width:0;
+}
+
+.hidden{
+  display:none!important;
+}
+
+.app-shell{
+  width:min(1120px,calc(100% - 24px));
+  margin:20px auto 50px;
+}
+
+.hero{
+  padding:26px;
+  border-radius:var(--radius);
+  background:var(--navy);
+  color:var(--white);
+  box-shadow:var(--shadow);
+}
+
+.hero h1{
+  margin:0;
+  font-size:clamp(1.7rem,4vw,2.4rem);
+  line-height:1.2;
+}
+
+.hero p{
+  margin:8px 0 0;
+  font-size:1.08rem;
+}
+
+.panel{
+  margin-top:16px;
+  padding:22px;
+  border:1px solid var(--gray-200);
+  border-radius:var(--radius);
+  background:var(--white);
+  box-shadow:var(--shadow);
+}
+
+.panel h2,
+.panel h3{
+  color:var(--navy);
+}
+
+.panel h2{
+  margin-top:0;
+}
+
+.callout{
+  margin:15px 0;
+  padding:17px;
+  border-left:6px solid;
+  border-radius:9px;
+}
+
+.callout h2,
+.callout h3{
+  margin-top:0;
+  color:var(--navy);
+}
+
+.callout-blue{
+  border-color:var(--blue);
+  background:var(--light-blue);
+}
+
+.callout-green{
+  border-color:var(--green);
+  background:var(--light-green);
+}
+
+.callout-yellow{
+  border-color:var(--yellow);
+  background:var(--light-yellow);
+}
+
+.callout-purple{
+  border-color:var(--purple);
+  background:var(--light-purple);
+}
+
+.status-bar{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:10px;
+  margin:14px 0;
+}
+
+.status-item{
+  padding:12px;
+  border:1px solid var(--gray-200);
+  border-radius:10px;
+  background:var(--white);
+  text-align:center;
+  box-shadow:0 3px 10px rgba(15,45,68,.06);
+}
+
+.status-label{
+  display:block;
+  color:var(--gray-700);
+  font-size:.78rem;
+  font-weight:700;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+}
+
+.status-value{
+  display:block;
+  margin-top:3px;
+  color:var(--navy);
+  font-weight:700;
+}
+
+.progress-strip{
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:8px;
+}
+
+.progress-step{
+  padding:10px 5px;
+  border:2px solid var(--gray-300);
+  border-radius:8px;
+  background:var(--gray-100);
+  color:var(--gray-700);
+  font-size:.8rem;
+  font-weight:700;
+  text-align:center;
+}
+
+.progress-step.current{
+  border-color:var(--blue);
+  background:var(--light-blue);
+  color:var(--navy);
+}
+
+.progress-step.complete{
+  border-color:var(--green);
+  background:var(--light-green);
+  color:var(--green);
+}
+
+.progress-track{
+  height:15px;
+  margin-top:14px;
+  overflow:hidden;
+  border-radius:999px;
+  background:var(--gray-200);
+}
+
+.progress-fill{
+  width:0;
+  height:100%;
+  background:var(--green);
+  transition:width .25s ease;
+}
+
+.progress-text{
+  margin:7px 0 0;
+  color:var(--gray-700);
+  text-align:center;
+  font-weight:700;
+}
+
+.name-grid,
+.input-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;
+}
+
+.field{
+  margin-top:14px;
+}
+
+.field label,
+.field-label{
+  display:block;
+  margin-bottom:6px;
+  color:var(--navy);
+  font-weight:700;
+}
+
+.field input,
+.field select{
+  width:100%;
+  padding:11px;
+  border:2px solid var(--gray-300);
+  border-radius:8px;
+  background:var(--white);
+  color:var(--gray-900);
+}
+
+.field-help{
+  margin:5px 0 0;
+  color:var(--gray-700);
+  font-size:.9rem;
+}
+
+.problem-card{
+  padding:20px;
+  border:1px solid var(--gray-200);
+  border-radius:10px;
+  background:var(--gray-100);
+}
+
+.problem-kicker{
+  margin:0;
+  color:var(--green);
+  font-size:.86rem;
+  font-weight:700;
+  letter-spacing:.09em;
+  text-transform:uppercase;
+}
+
+.graph-layout{
+  display:grid;
+  grid-template-columns:minmax(0,1.15fr) minmax(300px,.85fr);
+  gap:18px;
+  align-items:start;
+  margin-top:16px;
+}
+
+.graph-card{
+  padding:13px;
+  border:3px solid var(--blue);
+  border-radius:10px;
+  background:var(--white);
+}
+
+.graph-card h3{
+  margin:0 0 10px;
+  text-align:center;
+}
+
+.graph-card svg{
+  display:block;
+  width:100%;
+  height:auto;
+}
+
+.point-list{
+  padding:17px;
+  border-left:6px solid var(--green);
+  border-radius:9px;
+  background:var(--light-green);
+}
+
+.point-list h3{
+  margin-top:0;
+}
+
+.point-chip{
+  margin:8px 0;
+  padding:10px;
+  border:1px solid #b8d8c2;
+  border-radius:7px;
+  background:var(--white);
+  color:var(--navy);
+  font-family:"Courier New",Courier,monospace;
+  font-size:1.05rem;
+  font-weight:700;
+}
+
+.equation-display{
+  margin:16px 0;
+  padding:18px;
+  border:3px solid var(--blue);
+  border-radius:10px;
+  background:var(--white);
+  color:var(--navy);
+  font-family:"Courier New",Courier,monospace;
+  font-size:clamp(1.15rem,4vw,1.55rem);
+  font-weight:700;
+  text-align:center;
+}
+
+.equation-template{
+  display:flex;
+  flex-wrap:wrap;
+  gap:9px;
+  align-items:center;
+  justify-content:center;
+  margin:18px 0;
+  padding:18px;
+  border:2px solid var(--blue);
+  border-radius:10px;
+  background:var(--white);
+  color:var(--navy);
+  font-family:"Courier New",Courier,monospace;
+  font-size:1.25rem;
+  font-weight:700;
+}
+
+.equation-template input{
+  width:110px;
+  padding:9px;
+  border:2px solid var(--gray-300);
+  border-radius:7px;
+  text-align:center;
+}
+
+.choice-list{
+  display:grid;
+  gap:10px;
+  margin-top:12px;
+}
+
+.choice{
+  display:flex;
+  gap:10px;
+  align-items:flex-start;
+  padding:13px;
+  border:1px solid var(--gray-300);
+  border-radius:8px;
+  background:var(--white);
+}
+
+.choice input{
+  width:auto;
+  margin-top:4px;
+}
+
+.choice-equation{
+  color:var(--navy);
+  font-family:"Courier New",Courier,monospace;
+  font-size:1.05rem;
+  font-weight:700;
+}
+
+.whiteboard-section{
+  margin-top:20px;
+  padding:16px;
+  border:2px solid var(--gray-300);
+  border-radius:10px;
+  background:var(--white);
+}
+
+.whiteboard-section h3{
+  margin-top:0;
+}
+
+.whiteboard-toolbar{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  align-items:center;
+  margin-bottom:10px;
+}
+
+.toolbar-group{
+  display:flex;
+  gap:7px;
+  align-items:center;
+  padding-right:10px;
+  border-right:1px solid var(--gray-300);
+}
+
+.toolbar-group:last-child{
+  border-right:0;
+}
+
+.toolbar-label{
+  color:var(--gray-700);
+  font-size:.87rem;
+  font-weight:700;
+}
+
+.tool-button{
+  min-height:39px;
+  padding:8px 11px;
+  border:2px solid var(--gray-300);
+  border-radius:7px;
+  background:var(--white);
+  color:var(--navy);
+  font-weight:700;
+}
+
+.tool-button.active{
+  border-color:var(--navy);
+  background:var(--navy);
+  color:var(--white);
+}
+
+.whiteboard-wrap{
+  position:relative;
+  width:100%;
+  height:360px;
+  overflow:hidden;
+  border:2px solid var(--navy);
+  border-radius:8px;
+  background:var(--white);
+  touch-action:none;
+}
+
+.whiteboard-wrap.grid{
+  background-image:
+    linear-gradient(to right,#dce5eb 1px,transparent 1px),
+    linear-gradient(to bottom,#dce5eb 1px,transparent 1px);
+  background-size:25px 25px;
+}
+
+.whiteboard{
+  display:block;
+  width:100%;
+  height:100%;
+  cursor:crosshair;
+  touch-action:none;
+}
+
+.button-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  align-items:center;
+  margin-top:18px;
+}
+
+.button{
+  display:inline-block;
+  min-height:46px;
+  padding:11px 18px;
+  border:2px solid transparent;
+  border-radius:9px;
+  font-weight:700;
+  text-align:center;
+  text-decoration:none;
+}
+
+.button-primary{
+  background:var(--navy);
+  color:var(--white);
+}
+
+.button-secondary{
+  background:var(--green);
+  color:var(--white);
+}
+
+.button-danger{
+  border-color:var(--red);
+  background:var(--white);
+  color:var(--red);
+}
+
+.feedback{
+  margin-top:16px;
+  padding:15px;
+  border-left:6px solid var(--blue);
+  border-radius:8px;
+  background:var(--light-blue);
+  color:var(--navy);
+  font-weight:700;
+}
+
+.feedback.success{
+  border-color:var(--green);
+  background:var(--light-green);
+  color:#1e5b32;
+}
+
+.feedback.error{
+  border-color:var(--red);
+  background:var(--light-red);
+  color:#86170f;
+}
+
+/* ==============================
+   FINAL SUBMISSION REPORT
+============================== */
+
+.report-header{
+  padding:24px;
+  border-radius:10px;
+  background:var(--navy);
+  color:var(--white);
+}
+
+.report-header h1{
+  margin:0;
+  color:var(--white);
+}
+
+.report-header p{
+  margin:7px 0 0;
+}
+
+.report-section{
+  margin-top:20px;
+  padding:18px;
+  border:1px solid var(--gray-200);
+  border-left:6px solid var(--blue);
+  border-radius:10px;
+  background:var(--white);
+}
+
+.report-section.green{
+  border-left-color:var(--green);
+}
+
+.report-section.purple{
+  border-left-color:var(--purple);
+}
+
+.report-section.yellow{
+  border-left-color:var(--yellow);
+}
+
+.report-section h2,
+.report-section h3{
+  color:var(--navy);
+}
+
+.report-section h2{
+  margin-top:0;
+}
+
+.report-summary-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+}
+
+.report-summary-item{
+  padding:12px;
+  border:1px solid var(--gray-300);
+  border-radius:8px;
+  background:var(--gray-100);
+}
+
+.report-summary-item strong{
+  color:var(--navy);
+}
+
+.report-graph{
+  max-width:620px;
+  margin:14px auto;
+  padding:10px;
+  border:2px solid var(--blue);
+  border-radius:9px;
+  background:var(--white);
+}
+
+.report-graph svg{
+  display:block;
+  width:100%;
+  height:auto;
+}
+
+.report-points{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:8px;
+  margin-top:12px;
+}
+
+.report-point{
+  padding:10px;
+  border:1px solid var(--gray-300);
+  border-radius:7px;
+  background:var(--light-green);
+  text-align:center;
+  font-family:"Courier New",monospace;
+  font-weight:700;
+}
+
+.report-label{
+  margin:14px 0 5px;
+  color:var(--navy);
+  font-weight:700;
+}
+
+.report-response{
+  min-height:44px;
+  padding:12px;
+  border:1px solid var(--gray-300);
+  border-radius:7px;
+  background:var(--white);
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
+}
+
+.report-prompt{
+  margin:12px 0;
+  padding:13px;
+  border:2px solid var(--blue);
+  border-radius:8px;
+  background:var(--light-blue);
+  color:var(--navy);
+}
+
+.whiteboard-report{
+  margin-top:15px;
+  padding:12px;
+  border:1px solid var(--gray-300);
+  border-radius:8px;
+  background:var(--white);
+}
+
+.whiteboard-report img{
+  display:block;
+  width:100%;
+  max-height:480px;
+  object-fit:contain;
+  border:1px solid var(--gray-300);
+  background:
+    linear-gradient(to right,#e4ebf0 1px,transparent 1px),
+    linear-gradient(to bottom,#e4ebf0 1px,transparent 1px),
+    #fff;
+  background-size:25px 25px;
+}
+
+.whiteboard-missing{
+  padding:20px;
+  border:1px dashed var(--gray-300);
+  color:var(--gray-700);
+  text-align:center;
+}
+
+.print-directions{
+  margin-top:20px;
+  padding:16px;
+  border-left:6px solid var(--yellow);
+  border-radius:9px;
+  background:var(--light-yellow);
+}
+
+/* ==============================
+   CERTIFICATE
+============================== */
+
+.certificate{
+  position:relative;
+  overflow:hidden;
+  margin-top:28px;
+  padding:34px;
+  border:8px double var(--navy);
+  border-radius:14px;
+  background:var(--white);
+  box-shadow:var(--shadow);
+}
+
+.certificate::before{
+  position:absolute;
+  inset:12px;
+  border:1px solid var(--gray-300);
+  border-radius:6px;
+  content:"";
+  pointer-events:none;
+}
+
+.certificate-content{
+  position:relative;
+  z-index:1;
+}
+
+.certificate-kicker{
+  margin:0;
+  color:var(--green);
+  font-size:.9rem;
+  font-weight:700;
+  letter-spacing:.12em;
+  text-align:center;
+  text-transform:uppercase;
+}
+
+.certificate h2{
+  margin:8px 0;
+  color:var(--navy);
+  font-size:clamp(1.8rem,5vw,2.7rem);
+  text-align:center;
+}
+
+.certificate-name{
+  margin:18px auto;
+  padding-bottom:6px;
+  border-bottom:2px solid var(--navy);
+  color:var(--navy);
+  font-size:clamp(1.5rem,4vw,2.15rem);
+  font-weight:700;
+  text-align:center;
+}
+
+.certificate-statement{
+  max-width:790px;
+  margin:0 auto 18px;
+  text-align:center;
+}
+
+.mastery-table{
+  width:100%;
+  max-width:790px;
+  margin:20px auto;
+  border-collapse:collapse;
+}
+
+.mastery-table th,
+.mastery-table td{
+  padding:10px;
+  border:1px solid var(--gray-300);
+  text-align:left;
+}
+
+.mastery-table th{
+  background:var(--navy);
+  color:var(--white);
+}
+
+.certificate-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:8px 20px;
+  max-width:790px;
+  margin:20px auto;
+}
+
+.certificate-data{
+  padding:9px;
+  border-bottom:1px solid var(--gray-300);
+}
+
+.certificate-data strong{
+  color:var(--navy);
+}
+
+.verification-box{
+  max-width:790px;
+  margin:20px auto 0;
+  padding:12px;
+  border:2px dashed var(--green);
+  border-radius:8px;
+  background:var(--light-green);
+  text-align:center;
+}
+
+.verification-code{
+  display:block;
+  margin-top:4px;
+  font-family:"Courier New",monospace;
+  font-size:1.1rem;
+  font-weight:700;
+  letter-spacing:.05em;
+}
+
+.screen-reader-only{
+  position:absolute;
+  width:1px;
+  height:1px;
+  overflow:hidden;
+  clip:rect(0,0,0,0);
+  white-space:nowrap;
+}
+
+@media(max-width:880px){
+  .graph-layout{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:720px){
+  .status-bar{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+
+  .name-grid,
+  .input-grid,
+  .certificate-grid,
+  .report-summary-grid{
+    grid-template-columns:1fr;
+  }
+
+  .report-points{
+    grid-template-columns:1fr;
+  }
+
+  .progress-strip{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+
+@media(max-width:540px){
+  .app-shell{
+    width:min(100% - 12px,1120px);
+    margin-top:6px;
+  }
+
+  .hero,
+  .panel,
+  .certificate{
+    padding:17px;
+  }
+
+  .button{
+    width:100%;
+  }
+
+  .toolbar-group{
+    width:100%;
+    padding:0 0 8px;
+    border-right:0;
+    border-bottom:1px solid var(--gray-300);
+  }
+
+  .whiteboard-wrap{
+    height:300px;
+  }
+}
+
+@media print{
+  @page{
+    size:letter portrait;
+    margin:.45in;
+  }
+
+  body{
+    background:var(--white);
+    color:#000;
+    font-size:10.5pt;
+    print-color-adjust:exact;
+    -webkit-print-color-adjust:exact;
+  }
+
+  body *{
+    visibility:hidden!important;
+  }
+
+  #completionScreen,
+  #completionScreen *{
+    visibility:visible!important;
+  }
+
+  #completionScreen{
+    position:absolute;
+    inset:0;
+    display:block!important;
+    width:100%;
+    margin:0;
+    padding:0;
+    border:0;
+    box-shadow:none;
+  }
+
+  .report-header{
+    background:var(--navy)!important;
+    color:var(--white)!important;
+  }
+
+  .report-section,
+  .report-summary-item,
+  .report-graph,
+  .whiteboard-report{
+    break-inside:avoid;
+  }
+
+  .report-graph{
+    max-width:4.8in;
+  }
+
+  .whiteboard-report img{
+    max-height:4.1in;
+  }
+
+  .certificate{
+    min-height:9.2in;
+    page-break-before:always;
+    break-inside:avoid;
+    box-shadow:none;
+  }
+
+  .mastery-table th{
+    background:var(--navy)!important;
+    color:var(--white)!important;
+  }
+
+  .no-print{
+    display:none!important;
+  }
+}
+</style>
 </head>
 
 <body>
-  <main class="app-shell">
-    <header class="hero no-print">
-      <h1>
-        Algebra 1 | Unit 6 | Week 1
-      </h1>
 
-      <p>
-        Prove It! — Linear Graph Challenge
-      </p>
-    </header>
+<main class="app-shell">
+
+<header class="hero no-print">
+  <h1>
+    Algebra 1 | Unit 6 | Week 1
+  </h1>
+
+  <p>
+    Prove It! — Linear Graph Challenge
+  </p>
+</header>
+
+<div
+  id="liveStatus"
+  class="screen-reader-only"
+  aria-live="polite"
+></div>
+
+
+<!-- =========================
+     WELCOME
+========================== -->
+
+<section
+  id="welcomeScreen"
+  class="panel"
+>
+
+  <div class="callout callout-blue">
+
+    <h2>
+      Linear Forms Mastery Challenge
+    </h2>
+
+    <p>
+      Use one randomly generated linear graph to complete five
+      connected mastery challenges.
+    </p>
+
+    <p style="margin-bottom:0;">
+      Each challenge must be correct before the next challenge
+      unlocks.
+    </p>
+
+  </div>
+
+  <div class="callout callout-green">
+
+    <h3>
+      What You Will Demonstrate
+    </h3>
+
+    <p>
+      ☐ Calculate slope from labeled points.
+    </p>
+
+    <p>
+      ☐ Write a line in slope-intercept form.
+    </p>
+
+    <p>
+      ☐ Identify an equivalent standard-form equation.
+    </p>
+
+    <p>
+      ☐ Identify point-slope form using Point C.
+    </p>
+
+    <p style="margin-bottom:0;">
+      ☐ Write an equation for a parallel or perpendicular line.
+    </p>
+
+  </div>
+
+  <div class="callout callout-yellow">
+
+    <h3>
+      Whiteboard and Submission
+    </h3>
+
+    <p>
+      A digital whiteboard is available for every challenge. Your
+      response and a separate snapshot of your whiteboard work are
+      saved before you move to the next challenge.
+    </p>
+
+    <p style="margin-bottom:0;">
+      After mastering all five challenges, your final submission page
+      will contain the original randomized graph, all five responses,
+      all five whiteboard records, and your completion certificate.
+      Save that complete page as a PDF for Canvas.
+    </p>
+
+  </div>
+
+  <div class="name-grid">
+
+    <div class="field">
+
+      <label for="firstName">
+        First name
+      </label>
+
+      <input
+        id="firstName"
+        type="text"
+        autocomplete="given-name"
+        maxlength="40"
+      >
+
+    </div>
+
+    <div class="field">
+
+      <label for="lastName">
+        Last name
+      </label>
+
+      <input
+        id="lastName"
+        type="text"
+        autocomplete="family-name"
+        maxlength="40"
+      >
+
+    </div>
+
+  </div>
+
+  <div
+    id="welcomeFeedback"
+    class="feedback error hidden"
+    role="alert"
+  ></div>
+
+  <div class="button-row">
+
+    <button
+      id="beginButton"
+      class="button button-primary"
+      type="button"
+    >
+      Begin the Linear Graph Challenge
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     ACTIVITY
+========================== -->
+
+<section
+  id="activityScreen"
+  class="hidden"
+>
+
+  <div class="status-bar no-print">
+
+    <div class="status-item">
+
+      <span class="status-label">
+        Student
+      </span>
+
+      <span
+        id="studentStatus"
+        class="status-value"
+      ></span>
+
+    </div>
+
+    <div class="status-item">
+
+      <span class="status-label">
+        Challenge
+      </span>
+
+      <span
+        id="challengeStatus"
+        class="status-value"
+      >
+        1 of 5
+      </span>
+
+    </div>
+
+    <div class="status-item">
+
+      <span class="status-label">
+        Elapsed Time
+      </span>
+
+      <span
+        id="elapsedStatus"
+        class="status-value"
+      >
+        00:00
+      </span>
+
+    </div>
+
+    <div class="status-item">
+
+      <span class="status-label">
+        Answer Checks
+      </span>
+
+      <span
+        id="checksStatus"
+        class="status-value"
+      >
+        0
+      </span>
+
+    </div>
+
+  </div>
+
+
+  <div class="panel no-print">
 
     <div
-      id="liveStatus"
-      class="screen-reader-only"
-      aria-live="polite"
-    ></div>
-
-    <section
-      id="welcomeScreen"
-      class="panel"
+      id="progressStrip"
+      class="progress-strip"
+      aria-label="Linear graph challenge progress"
     >
-      <div class="callout callout-blue">
-        <h2>
-          Linear Forms Mastery Challenge
-        </h2>
 
-        <p>
-          Use one randomly generated linear graph to complete five
-          connected mastery challenges.
-        </p>
-
-        <p style="margin-bottom: 0;">
-          Each challenge must be correct before the next challenge
-          unlocks.
-        </p>
-      </div>
-
-      <div class="callout callout-green">
-        <h3>
-          What You Will Demonstrate
-        </h3>
-
-        <p>☐ Calculate slope from labeled points.</p>
-        <p>☐ Write a line in slope-intercept form.</p>
-        <p>☐ Identify an equivalent standard-form equation.</p>
-        <p>☐ Identify point-slope form using Point C.</p>
-
-        <p style="margin-bottom: 0;">
-          ☐ Write an equation for a parallel or perpendicular line.
-        </p>
-      </div>
-
-      <div class="callout callout-yellow">
-        <h3>
-          Whiteboard and Submission
-        </h3>
-
-        <p>
-          A digital whiteboard is available throughout the activity
-          for rise-over-run calculations and equation conversions.
-        </p>
-
-        <p style="margin-bottom: 0;">
-          After mastering all five challenges, save the certificate as
-          a PDF or take a clear screenshot for Canvas. No screen
-          recording is required.
-        </p>
-      </div>
-
-      <div class="name-grid">
-        <div class="field">
-          <label for="firstName">
-            First name
-          </label>
-
-          <input
-            id="firstName"
-            type="text"
-            autocomplete="given-name"
-            maxlength="40"
-          >
-        </div>
-
-        <div class="field">
-          <label for="lastName">
-            Last name
-          </label>
-
-          <input
-            id="lastName"
-            type="text"
-            autocomplete="family-name"
-            maxlength="40"
-          >
-        </div>
+      <div
+        class="progress-step"
+        data-label="Slope"
+      >
+        Slope
       </div>
 
       <div
-        id="welcomeFeedback"
-        class="feedback error hidden"
-        role="alert"
+        class="progress-step"
+        data-label="Slope-Intercept"
+      >
+        Slope-Intercept
+      </div>
+
+      <div
+        class="progress-step"
+        data-label="Standard"
+      >
+        Standard
+      </div>
+
+      <div
+        class="progress-step"
+        data-label="Point-Slope"
+      >
+        Point-Slope
+      </div>
+
+      <div
+        class="progress-step"
+        data-label="Relationships"
+      >
+        Relationships
+      </div>
+
+    </div>
+
+    <div class="progress-track">
+
+      <div
+        id="progressFill"
+        class="progress-fill"
       ></div>
 
-      <div class="button-row">
-        <button
-          id="beginButton"
-          class="button button-primary"
-          type="button"
-        >
-          Begin the Linear Graph Challenge
-        </button>
-      </div>
-    </section>
+    </div>
 
-    <section
-      id="activityScreen"
-      class="hidden"
+    <p
+      id="progressText"
+      class="progress-text"
     >
-      <div class="status-bar no-print">
-        <div class="status-item">
-          <span class="status-label">
-            Student
-          </span>
+      Challenge 1 of 5
+    </p>
 
-          <span
-            id="studentStatus"
-            class="status-value"
-          ></span>
+  </div>
+
+
+  <section class="panel">
+
+    <div class="problem-card">
+
+      <p
+        id="problemKicker"
+        class="problem-kicker"
+      ></p>
+
+      <h2 id="problemTitle"></h2>
+
+
+      <div class="graph-layout">
+
+        <div class="graph-card">
+
+          <h3>
+            Use This Graph for All Five Challenges
+          </h3>
+
+          <div id="graphContainer"></div>
+
         </div>
 
-        <div class="status-item">
-          <span class="status-label">
-            Challenge
-          </span>
-
-          <span
-            id="challengeStatus"
-            class="status-value"
-          >
-            1 of 5
-          </span>
-        </div>
-
-        <div class="status-item">
-          <span class="status-label">
-            Elapsed Time
-          </span>
-
-          <span
-            id="elapsedStatus"
-            class="status-value"
-          >
-            00:00
-          </span>
-        </div>
-
-        <div class="status-item">
-          <span class="status-label">
-            Answer Checks
-          </span>
-
-          <span
-            id="checksStatus"
-            class="status-value"
-          >
-            0
-          </span>
-        </div>
-      </div>
-
-      <div class="panel no-print">
         <div
-          id="progressStrip"
-          class="progress-strip"
-          aria-label="Linear graph challenge progress"
-        >
-          <div class="progress-step" data-label="Slope">
-            Slope
-          </div>
+          id="pointSummary"
+          class="point-list"
+        ></div>
 
-          <div class="progress-step" data-label="Slope-Intercept">
-            Slope-Intercept
-          </div>
-
-          <div class="progress-step" data-label="Standard">
-            Standard
-          </div>
-
-          <div class="progress-step" data-label="Point-Slope">
-            Point-Slope
-          </div>
-
-          <div class="progress-step" data-label="Relationships">
-            Relationships
-          </div>
-        </div>
-
-        <div class="progress-track">
-          <div
-            id="progressFill"
-            class="progress-fill"
-          ></div>
-        </div>
-
-        <p
-          id="progressText"
-          class="progress-text"
-        >
-          Challenge 1 of 5
-        </p>
       </div>
 
-      <section class="panel">
-        <div class="problem-card">
-          <p
-            id="problemKicker"
-            class="problem-kicker"
-          ></p>
 
-          <h2 id="problemTitle"></h2>
+      <div id="problemContent"></div>
 
-          <div class="graph-layout">
-            <div class="graph-card">
-              <h3>
-                Use This Graph for All Five Challenges
-              </h3>
 
-              <div id="graphContainer"></div>
-            </div>
+      <div class="whiteboard-section">
 
-            <div
-              id="pointSummary"
-              class="point-list"
-            ></div>
-          </div>
+        <h3>
+          Show Your Work
+        </h3>
 
-          <div id="problemContent"></div>
+        <p>
+          Use the whiteboard to calculate rise over run, rearrange
+          equations, or compare slopes. Your work for this challenge
+          is saved separately when you continue.
+        </p>
 
-          <div class="whiteboard-section">
-            <h3>
-              Show Your Work
-            </h3>
+        <div class="whiteboard-toolbar">
 
-            <p>
-              Use the whiteboard to calculate rise over run, rearrange
-              equations, or compare slopes.
-            </p>
+          <div class="toolbar-group">
 
-            <div class="whiteboard-toolbar">
-              <div class="toolbar-group">
-                <span class="toolbar-label">
-                  Tool:
-                </span>
+            <span class="toolbar-label">
+              Tool:
+            </span>
 
-                <button
-                  id="penButton"
-                  class="tool-button active"
-                  type="button"
-                >
-                  Pen
-                </button>
-
-                <button
-                  id="eraserButton"
-                  class="tool-button"
-                  type="button"
-                >
-                  Eraser
-                </button>
-              </div>
-
-              <div class="toolbar-group">
-                <label
-                  for="lineWidth"
-                  class="toolbar-label"
-                >
-                  Line:
-                </label>
-
-                <select id="lineWidth">
-                  <option value="2">
-                    Thin
-                  </option>
-
-                  <option
-                    value="4"
-                    selected
-                  >
-                    Medium
-                  </option>
-
-                  <option value="7">
-                    Thick
-                  </option>
-                </select>
-              </div>
-
-              <div class="toolbar-group">
-                <button
-                  id="undoButton"
-                  class="tool-button"
-                  type="button"
-                >
-                  Undo
-                </button>
-
-                <button
-                  id="clearButton"
-                  class="tool-button"
-                  type="button"
-                >
-                  Clear
-                </button>
-
-                <button
-                  id="gridButton"
-                  class="tool-button active"
-                  type="button"
-                >
-                  Grid
-                </button>
-              </div>
-            </div>
-
-            <div
-              id="whiteboardWrap"
-              class="whiteboard-wrap grid"
-            >
-              <canvas
-                id="whiteboard"
-                class="whiteboard"
-                aria-label="Whiteboard for linear equation calculations"
-              ></canvas>
-            </div>
-          </div>
-
-          <div
-            id="problemFeedback"
-            class="feedback"
-            role="status"
-            aria-live="polite"
-          >
-            Complete every response and check your work.
-          </div>
-
-          <div class="button-row no-print">
             <button
-              id="checkButton"
-              class="button button-secondary"
+              id="penButton"
+              class="tool-button active"
               type="button"
             >
-              Check This Challenge
+              Pen
             </button>
+
+            <button
+              id="eraserButton"
+              class="tool-button"
+              type="button"
+            >
+              Eraser
+            </button>
+
           </div>
+
+          <div class="toolbar-group">
+
+            <label
+              for="lineWidth"
+              class="toolbar-label"
+            >
+              Line:
+            </label>
+
+            <select id="lineWidth">
+
+              <option value="2">
+                Thin
+              </option>
+
+              <option
+                value="4"
+                selected
+              >
+                Medium
+              </option>
+
+              <option value="7">
+                Thick
+              </option>
+
+            </select>
+
+          </div>
+
+          <div class="toolbar-group">
+
+            <button
+              id="undoButton"
+              class="tool-button"
+              type="button"
+            >
+              Undo
+            </button>
+
+            <button
+              id="clearButton"
+              class="tool-button"
+              type="button"
+            >
+              Clear
+            </button>
+
+            <button
+              id="gridButton"
+              class="tool-button active"
+              type="button"
+            >
+              Grid
+            </button>
+
+          </div>
+
         </div>
-      </section>
-    </section>
 
-    <section
-      id="completionScreen"
-      class="panel hidden"
-    >
-      <div class="certificate">
-        <div class="certificate-content">
-          <p class="certificate-kicker">
-            Algebra 1 Mastery Evidence
-          </p>
+        <div
+          id="whiteboardWrap"
+          class="whiteboard-wrap grid"
+        >
 
-          <h2>
-            Linear Graph and Equation Forms Mastery
-          </h2>
+          <canvas
+            id="whiteboard"
+            class="whiteboard"
+            aria-label="Whiteboard for linear equation calculations"
+          ></canvas>
 
-          <p class="certificate-statement">
-            This certificate confirms that the student named below
-            correctly completed five connected challenges involving
-            slope, slope-intercept form, standard form, point-slope
-            form, and parallel or perpendicular lines.
-          </p>
-
-          <div
-            id="certificateName"
-            class="certificate-name"
-          ></div>
-
-          <table class="mastery-table">
-            <thead>
-              <tr>
-                <th scope="col">
-                  Linear Function Skill
-                </th>
-
-                <th scope="col">
-                  Result
-                </th>
-              </tr>
-            </thead>
-
-            <tbody>
-              <tr>
-                <td>
-                  Calculate Slope from a Graph
-                </td>
-
-                <td>
-                  Mastered
-                </td>
-              </tr>
-
-              <tr>
-                <td>
-                  Slope-Intercept Form
-                </td>
-
-                <td>
-                  Mastered
-                </td>
-              </tr>
-
-              <tr>
-                <td>
-                  Standard Form
-                </td>
-
-                <td>
-                  Mastered
-                </td>
-              </tr>
-
-              <tr>
-                <td>
-                  Point-Slope Form Using Point C
-                </td>
-
-                <td>
-                  Mastered
-                </td>
-              </tr>
-
-              <tr>
-                <td>
-                  Parallel or Perpendicular Lines
-                </td>
-
-                <td>
-                  Mastered
-                </td>
-              </tr>
-            </tbody>
-          </table>
-
-          <div class="certificate-grid">
-            <div class="certificate-data">
-              <strong>Date:</strong>
-              <span id="certificateDate"></span>
-            </div>
-
-            <div class="certificate-data">
-              <strong>Activity Version:</strong>
-              <span id="certificateVersion"></span>
-            </div>
-
-            <div class="certificate-data">
-              <strong>Started:</strong>
-              <span id="certificateStart"></span>
-            </div>
-
-            <div class="certificate-data">
-              <strong>Completed:</strong>
-              <span id="certificateCompleted"></span>
-            </div>
-
-            <div class="certificate-data">
-              <strong>Elapsed Time:</strong>
-              <span id="certificateElapsed"></span>
-            </div>
-
-            <div class="certificate-data">
-              <strong>Answer Checks:</strong>
-              <span id="certificateChecks"></span>
-            </div>
-
-            <div class="certificate-data">
-              <strong>Challenges:</strong>
-              5 of 5 mastered
-            </div>
-
-            <div class="certificate-data">
-              <strong>Mastery Status:</strong>
-              Complete
-            </div>
-          </div>
-
-          <div class="verification-box">
-            <strong>
-              Completion Verification Code
-            </strong>
-
-            <span
-              id="certificateCode"
-              class="verification-code"
-            ></span>
-          </div>
-
-          <p style="text-align: center; margin-top: 18px;">
-            Save this page as a PDF or take a clear screenshot, then
-            submit it to the U6L1 Prove It! assignment in Canvas.
-          </p>
         </div>
+
       </div>
+
+
+      <div
+        id="problemFeedback"
+        class="feedback"
+        role="status"
+        aria-live="polite"
+      >
+        Complete the response and check your work.
+      </div>
+
 
       <div class="button-row no-print">
-        <button
-          id="printButton"
-          class="button button-primary"
-          type="button"
-        >
-          Print or Save as PDF
-        </button>
 
         <button
-          id="newAttemptButton"
-          class="button button-danger"
+          id="checkButton"
+          class="button button-secondary"
           type="button"
         >
-          Start a New Attempt
+          Check This Challenge
         </button>
+
       </div>
-    </section>
-  </main>
 
-  <script>
-    "use strict";
+    </div>
 
-    const ACTIVITY_VERSION =
-      "U6W1-LINEAR-GRAPH-2.1";
+  </section>
 
-    const state = {
-      studentName: "",
-      startedAt: null,
-      completedAt: null,
-      currentChallenge: 0,
-      totalChecks: 0,
-      line: null,
-      standardChoices: [],
-      pointSlopeChoices: null,
-      relationshipProblem: null,
-      timerId: null
-    };
+</section>
 
-    const board = {
-      canvas:
-        document.getElementById(
-          "whiteboard"
-        ),
 
-      wrap:
-        document.getElementById(
-          "whiteboardWrap"
-        ),
+<!-- =========================
+     COMPLETION REPORT
+========================== -->
 
-      context: null,
-      initialized: false,
-      drawing: false,
-      tool: "pen",
-      lineWidth: 4,
-      history: [],
-      lastX: 0,
-      lastY: 0
-    };
+<section
+  id="completionScreen"
+  class="panel hidden"
+>
 
-    board.context =
-      board.canvas.getContext("2d");
+  <header class="report-header">
 
-    const welcomeScreen =
-      document.getElementById(
-        "welcomeScreen"
+    <h1>
+      Algebra 1 Prove It! Submission
+    </h1>
+
+    <p>
+      Unit 6 Week 1 — Linear Graph Challenge
+    </p>
+
+  </header>
+
+
+  <section class="report-section">
+
+    <h2>
+      Student and Completion Information
+    </h2>
+
+    <div class="report-summary-grid">
+
+      <div class="report-summary-item">
+        <strong>Student:</strong>
+        <span id="reportStudent"></span>
+      </div>
+
+      <div class="report-summary-item">
+        <strong>Date:</strong>
+        <span id="reportDate"></span>
+      </div>
+
+      <div class="report-summary-item">
+        <strong>Started:</strong>
+        <span id="reportStarted"></span>
+      </div>
+
+      <div class="report-summary-item">
+        <strong>Completed:</strong>
+        <span id="reportCompleted"></span>
+      </div>
+
+      <div class="report-summary-item">
+        <strong>Elapsed Time:</strong>
+        <span id="reportElapsed"></span>
+      </div>
+
+      <div class="report-summary-item">
+        <strong>Answer Checks:</strong>
+        <span id="reportChecks"></span>
+      </div>
+
+      <div class="report-summary-item">
+        <strong>Challenges:</strong>
+        5 of 5 mastered
+      </div>
+
+      <div class="report-summary-item">
+        <strong>Activity Version:</strong>
+        <span id="reportVersion"></span>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <section class="report-section green">
+
+    <h2>
+      Shared Randomized Graph
+    </h2>
+
+    <p>
+      The same graph and labeled points were used throughout all five
+      mastery challenges.
+    </p>
+
+    <div
+      id="reportGraph"
+      class="report-graph"
+    ></div>
+
+    <div
+      id="reportPoints"
+      class="report-points"
+    ></div>
+
+  </section>
+
+
+  <div id="challengeReports"></div>
+
+
+  <section class="report-section">
+
+    <h2>
+      Completion Verification
+    </h2>
+
+    <p>
+      This submission report was generated after all five connected
+      linear-graph challenges met the activity mastery requirements.
+    </p>
+
+    <div class="verification-box">
+
+      <strong>
+        Completion Verification Code
+      </strong>
+
+      <span
+        id="reportCode"
+        class="verification-code"
+      ></span>
+
+    </div>
+
+  </section>
+
+
+  <div class="print-directions no-print">
+
+    <strong>
+      Submission directions:
+    </strong>
+
+    Select <em>Print or Save as PDF</em>. In the browser print window,
+    choose <em>Save as PDF</em>. Review the preview to make sure the
+    shared graph, all five responses, all five whiteboard records, and
+    the certificate are included. Save the PDF and submit it to the
+    U6L1 Prove It! assignment in Canvas.
+
+  </div>
+
+
+  <!-- =========================
+       CERTIFICATE
+  ========================== -->
+
+  <section class="certificate">
+
+    <div class="certificate-content">
+
+      <p class="certificate-kicker">
+        Algebra 1 Mastery Evidence
+      </p>
+
+      <h2>
+        Linear Graph and Equation Forms Mastery
+      </h2>
+
+      <p class="certificate-statement">
+        This certificate confirms that the student named below
+        correctly completed five connected challenges involving
+        slope, slope-intercept form, standard form, point-slope form,
+        and parallel or perpendicular lines.
+      </p>
+
+      <div
+        id="certificateName"
+        class="certificate-name"
+      ></div>
+
+
+      <table class="mastery-table">
+
+        <thead>
+          <tr>
+            <th scope="col">
+              Linear Function Skill
+            </th>
+
+            <th scope="col">
+              Result
+            </th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <tr>
+            <td>
+              Calculate Slope from a Graph
+            </td>
+
+            <td>
+              Mastered
+            </td>
+          </tr>
+
+          <tr>
+            <td>
+              Slope-Intercept Form
+            </td>
+
+            <td>
+              Mastered
+            </td>
+          </tr>
+
+          <tr>
+            <td>
+              Standard Form
+            </td>
+
+            <td>
+              Mastered
+            </td>
+          </tr>
+
+          <tr>
+            <td>
+              Point-Slope Form Using Point C
+            </td>
+
+            <td>
+              Mastered
+            </td>
+          </tr>
+
+          <tr>
+            <td>
+              Parallel or Perpendicular Lines
+            </td>
+
+            <td>
+              Mastered
+            </td>
+          </tr>
+
+        </tbody>
+
+      </table>
+
+
+      <div class="certificate-grid">
+
+        <div class="certificate-data">
+          <strong>Date:</strong>
+          <span id="certificateDate"></span>
+        </div>
+
+        <div class="certificate-data">
+          <strong>Activity Version:</strong>
+          <span id="certificateVersion"></span>
+        </div>
+
+        <div class="certificate-data">
+          <strong>Started:</strong>
+          <span id="certificateStart"></span>
+        </div>
+
+        <div class="certificate-data">
+          <strong>Completed:</strong>
+          <span id="certificateCompleted"></span>
+        </div>
+
+        <div class="certificate-data">
+          <strong>Elapsed Time:</strong>
+          <span id="certificateElapsed"></span>
+        </div>
+
+        <div class="certificate-data">
+          <strong>Answer Checks:</strong>
+          <span id="certificateChecks"></span>
+        </div>
+
+        <div class="certificate-data">
+          <strong>Challenges:</strong>
+          5 of 5 mastered
+        </div>
+
+        <div class="certificate-data">
+          <strong>Mastery Status:</strong>
+          Complete
+        </div>
+
+      </div>
+
+
+      <div class="verification-box">
+
+        <strong>
+          Completion Verification Code
+        </strong>
+
+        <span
+          id="certificateCode"
+          class="verification-code"
+        ></span>
+
+      </div>
+
+      <p style="text-align:center;margin-top:18px;">
+        This certificate is included with the student's complete
+        Unit 6 Week 1 linear-graph mastery evidence.
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <div class="button-row no-print">
+
+    <button
+      id="printButton"
+      class="button button-primary"
+      type="button"
+    >
+      Print or Save as PDF
+    </button>
+
+    <button
+      id="newAttemptButton"
+      class="button button-danger"
+      type="button"
+    >
+      Start a New Attempt
+    </button>
+
+  </div>
+
+</section>
+
+</main>
+
+
+<script>
+"use strict";
+
+const ACTIVITY_VERSION =
+  "U6W1-LINEAR-GRAPH-2.2";
+
+const STORAGE_KEY =
+  "algebra1-u6w1-linear-graph-mastery";
+
+
+/* ========================================
+   STATE
+======================================== */
+
+const state = {
+  firstName:"",
+  lastName:"",
+  studentName:"",
+  startedAt:null,
+  completedAt:null,
+  currentChallenge:0,
+  totalChecks:0,
+
+  mastered:[
+    false,
+    false,
+    false,
+    false,
+    false
+  ],
+
+  responses:[
+    null,
+    null,
+    null,
+    null,
+    null
+  ],
+
+  /*
+    Whiteboard images are also kept in memory
+    so the final report still works during the
+    current session if localStorage image saving
+    is unavailable.
+  */
+  boardImages:[
+    "",
+    "",
+    "",
+    "",
+    ""
+  ],
+
+  line:null,
+  standardChoices:[],
+  pointSlopeChoices:null,
+  relationshipProblem:null,
+  timerId:null
+};
+
+
+const board = {
+  canvas:
+    document.getElementById(
+      "whiteboard"
+    ),
+
+  wrap:
+    document.getElementById(
+      "whiteboardWrap"
+    ),
+
+  context:null,
+  initialized:false,
+  drawing:false,
+  tool:"pen",
+  lineWidth:4,
+  history:[],
+  lastX:0,
+  lastY:0
+};
+
+board.context =
+  board.canvas.getContext(
+    "2d"
+  );
+
+
+const welcomeScreen =
+  document.getElementById(
+    "welcomeScreen"
+  );
+
+const activityScreen =
+  document.getElementById(
+    "activityScreen"
+  );
+
+const completionScreen =
+  document.getElementById(
+    "completionScreen"
+  );
+
+const problemContent =
+  document.getElementById(
+    "problemContent"
+  );
+
+const problemFeedback =
+  document.getElementById(
+    "problemFeedback"
+  );
+
+const liveStatus =
+  document.getElementById(
+    "liveStatus"
+  );
+
+
+/* ========================================
+   RANDOM HELPERS
+======================================== */
+
+function randomInteger(
+  min,
+  max
+){
+  return Math.floor(
+    Math.random() *
+    (max-min+1)
+  ) + min;
+}
+
+
+function choose(array){
+  return array[
+    randomInteger(
+      0,
+      array.length-1
+    )
+  ];
+}
+
+
+function shuffle(array){
+  const copy =
+    [...array];
+
+  for(
+    let index =
+      copy.length-1;
+    index>0;
+    index-=1
+  ){
+    const other =
+      randomInteger(
+        0,
+        index
       );
 
-    const activityScreen =
-      document.getElementById(
-        "activityScreen"
-      );
+    [
+      copy[index],
+      copy[other]
+    ] = [
+      copy[other],
+      copy[index]
+    ];
+  }
 
-    const completionScreen =
-      document.getElementById(
-        "completionScreen"
-      );
+  return copy;
+}
 
-    const problemContent =
-      document.getElementById(
-        "problemContent"
-      );
 
-    const problemFeedback =
-      document.getElementById(
-        "problemFeedback"
-      );
+/* ========================================
+   FRACTION / EQUATION HELPERS
+======================================== */
 
-    const liveStatus =
-      document.getElementById(
-        "liveStatus"
-      );
+function gcd(
+  first,
+  second
+){
+  let a =
+    Math.abs(
+      first
+    );
 
-    function randomInteger(min, max) {
-      return Math.floor(
-        Math.random() *
-        (max - min + 1)
-      ) + min;
-    }
+  let b =
+    Math.abs(
+      second
+    );
 
-    function choose(array) {
-      return array[
-        randomInteger(
-          0,
-          array.length - 1
-        )
-      ];
-    }
+  while(
+    b!==0
+  ){
+    const remainder =
+      a%b;
 
-    function shuffle(array) {
-      const copy = [...array];
+    a=b;
+    b=remainder;
+  }
 
-      for (
-        let index = copy.length - 1;
-        index > 0;
-        index -= 1
-      ) {
-        const other =
-          randomInteger(0, index);
+  return a||1;
+}
 
-        [
-          copy[index],
-          copy[other]
-        ] = [
-          copy[other],
-          copy[index]
-        ];
-      }
 
-      return copy;
-    }
+function reduceFraction(
+  numerator,
+  denominator
+){
+  if(
+    denominator===0
+  ){
+    throw new Error(
+      "A fraction cannot have a zero denominator."
+    );
+  }
 
-    function gcd(first, second) {
-      let a = Math.abs(first);
-      let b = Math.abs(second);
+  let n =
+    numerator;
 
-      while (b !== 0) {
-        const remainder = a % b;
-        a = b;
-        b = remainder;
-      }
+  let d =
+    denominator;
 
-      return a || 1;
-    }
+  if(
+    d<0
+  ){
+    n*=-1;
+    d*=-1;
+  }
 
-    function reduceFraction(
+  const divisor =
+    gcd(
+      n,
+      d
+    );
+
+  return {
+    numerator:
+      n/divisor,
+
+    denominator:
+      d/divisor
+  };
+}
+
+
+function formatFraction(
+  numerator,
+  denominator
+){
+  const reduced =
+    reduceFraction(
       numerator,
       denominator
-    ) {
-      if (denominator === 0) {
-        throw new Error(
-          "A fraction cannot have a zero denominator."
-        );
-      }
+    );
 
-      let n = numerator;
-      let d = denominator;
+  if(
+    reduced.denominator===
+    1
+  ){
+    return String(
+      reduced.numerator
+    );
+  }
 
-      if (d < 0) {
-        n *= -1;
-        d *= -1;
-      }
+  return (
+    `${reduced.numerator}/` +
+    `${reduced.denominator}`
+  );
+}
 
-      const divisor =
-        gcd(n, d);
 
-      return {
-        numerator:
-          n / divisor,
+function formatParenthetical(
+  value
+){
+  if(
+    value===0
+  ){
+    return "x";
+  }
 
-        denominator:
-          d / divisor
-      };
-    }
+  if(
+    value>0
+  ){
+    return (
+      `(x - ${value})`
+    );
+  }
 
-    function formatFraction(
+  return (
+    `(x + ${Math.abs(value)})`
+  );
+}
+
+
+function formatYDifference(
+  value
+){
+  if(
+    value===0
+  ){
+    return "y";
+  }
+
+  if(
+    value>0
+  ){
+    return (
+      `y - ${value}`
+    );
+  }
+
+  return (
+    `y + ${Math.abs(value)}`
+  );
+}
+
+
+function formatPointSlope(
+  numerator,
+  denominator,
+  x,
+  y
+){
+  return (
+    `${formatYDifference(y)} = ` +
+    `${formatFraction(
       numerator,
       denominator
-    ) {
-      const reduced =
-        reduceFraction(
-          numerator,
-          denominator
-        );
+    )}` +
+    `${formatParenthetical(x)}`
+  );
+}
 
-      if (
-        reduced.denominator === 1
-      ) {
-        return String(
-          reduced.numerator
-        );
-      }
 
-      return (
-        `${reduced.numerator}/` +
-        `${reduced.denominator}`
-      );
-    }
+function formatSlopeIntercept(){
+  const slope =
+    formatFraction(
+      state.line.numerator,
+      state.line.denominator
+    );
 
-    function formatParenthetical(
-      value
-    ) {
-      if (value === 0) {
-        return "x";
-      }
+  const intercept =
+    state.line.intercept;
 
-      if (value > 0) {
-        return `(x - ${value})`;
-      }
+  let xTerm;
 
-      return `(x + ${Math.abs(value)})`;
-    }
+  if(
+    slope==="1"
+  ){
+    xTerm="x";
+  }else if(
+    slope==="-1"
+  ){
+    xTerm="-x";
+  }else{
+    xTerm=
+      `${slope}x`;
+  }
 
-    function formatYDifference(
-      value
-    ) {
-      if (value === 0) {
-        return "y";
-      }
+  if(
+    intercept===0
+  ){
+    return (
+      `y = ${xTerm}`
+    );
+  }
 
-      if (value > 0) {
-        return `y - ${value}`;
-      }
+  if(
+    intercept>0
+  ){
+    return (
+      `y = ${xTerm} + ${intercept}`
+    );
+  }
 
-      return `y + ${Math.abs(value)}`;
-    }
+  return (
+    `y = ${xTerm} - ${Math.abs(intercept)}`
+  );
+}
 
-    function formatPointSlope(
-      numerator,
-      denominator,
-      x,
-      y
-    ) {
-      return (
-        `${formatYDifference(y)} = ` +
-        `${formatFraction(
-          numerator,
-          denominator
-        )}` +
-        `${formatParenthetical(x)}`
-      );
-    }
 
-    function normalizeStandard(
-      a,
-      b,
+function normalizeStandard(
+  a,
+  b,
+  c
+){
+  const divisor =
+    gcd(
+      gcd(
+        a,
+        b
+      ),
       c
-    ) {
-      const divisor =
-        gcd(
-          gcd(a, b),
-          c
-        );
+    );
 
-      let normalizedA =
-        a / divisor;
+  let normalizedA =
+    a/divisor;
 
-      let normalizedB =
-        b / divisor;
+  let normalizedB =
+    b/divisor;
 
-      let normalizedC =
-        c / divisor;
+  let normalizedC =
+    c/divisor;
 
-      if (
-        normalizedA < 0 ||
-        (
-          normalizedA === 0 &&
-          normalizedB < 0
+  if(
+    normalizedA<0 ||
+    (
+      normalizedA===0 &&
+      normalizedB<0
+    )
+  ){
+    normalizedA*=-1;
+    normalizedB*=-1;
+    normalizedC*=-1;
+  }
+
+  return {
+    a:
+      normalizedA,
+
+    b:
+      normalizedB,
+
+    c:
+      normalizedC
+  };
+}
+
+
+function formatStandard(
+  a,
+  b,
+  c
+){
+  let expression="";
+
+  if(
+    a===1
+  ){
+    expression="x";
+  }else if(
+    a===-1
+  ){
+    expression="-x";
+  }else{
+    expression=
+      `${a}x`;
+  }
+
+  if(
+    b===1
+  ){
+    expression +=
+      " + y";
+  }else if(
+    b===-1
+  ){
+    expression +=
+      " - y";
+  }else if(
+    b>0
+  ){
+    expression +=
+      ` + ${b}y`;
+  }else{
+    expression +=
+      ` - ${Math.abs(b)}y`;
+  }
+
+  return (
+    `${expression} = ${c}`
+  );
+}
+
+
+/* ========================================
+   LINE GENERATION AND VALIDATION
+======================================== */
+
+function pointSatisfiesLine(
+  point,
+  line
+){
+  return (
+    line.denominator *
+      point.y ===
+    line.numerator *
+      point.x +
+    line.denominator *
+      line.intercept
+  );
+}
+
+
+function generateValidatedLine(){
+  const slopeOptions = [
+    {
+      numerator:1,
+      denominator:1
+    },
+    {
+      numerator:-1,
+      denominator:1
+    },
+    {
+      numerator:2,
+      denominator:1
+    },
+    {
+      numerator:-2,
+      denominator:1
+    },
+    {
+      numerator:3,
+      denominator:1
+    },
+    {
+      numerator:-3,
+      denominator:1
+    },
+    {
+      numerator:1,
+      denominator:2
+    },
+    {
+      numerator:-1,
+      denominator:2
+    },
+    {
+      numerator:2,
+      denominator:3
+    },
+    {
+      numerator:-2,
+      denominator:3
+    },
+    {
+      numerator:3,
+      denominator:2
+    },
+    {
+      numerator:-3,
+      denominator:2
+    }
+  ];
+
+  for(
+    let attempt=0;
+    attempt<1000;
+    attempt+=1
+  ){
+    const slope =
+      choose(
+        slopeOptions
+      );
+
+    const multiplier =
+      choose([
+        -3,
+        -2,
+        -1,
+        1,
+        2,
+        3
+      ]);
+
+    /*
+      Choosing b as numerator * integer
+      guarantees an integer x-intercept.
+    */
+
+    const intercept =
+      slope.numerator *
+      multiplier;
+
+    const xIntercept =
+      -intercept *
+      slope.denominator /
+      slope.numerator;
+
+    const thirdPoint = {
+      x:
+        slope.denominator,
+
+      y:
+        intercept +
+        slope.numerator
+    };
+
+    const xPoint = {
+      x:
+        xIntercept,
+
+      y:
+        0
+    };
+
+    const yPoint = {
+      x:
+        0,
+
+      y:
+        intercept
+    };
+
+    const coordinates = [
+      xPoint.x,
+      xPoint.y,
+      yPoint.x,
+      yPoint.y,
+      thirdPoint.x,
+      thirdPoint.y
+    ];
+
+    if(
+      !coordinates.every(
+        value =>
+          Number.isInteger(
+            value
+          ) &&
+          Math.abs(
+            value
+          )<=8
+      )
+    ){
+      continue;
+    }
+
+    if(
+      (
+        thirdPoint.x===
+          xPoint.x &&
+        thirdPoint.y===
+          xPoint.y
+      ) ||
+      (
+        thirdPoint.x===
+          yPoint.x &&
+        thirdPoint.y===
+          yPoint.y
+      )
+    ){
+      continue;
+    }
+
+    /*
+      y = (n/d)x + b
+      d y = n x + d b
+      n x - d y = -d b
+    */
+
+    const standard =
+      normalizeStandard(
+        slope.numerator,
+        -slope.denominator,
+        -slope.denominator *
+          intercept
+      );
+
+    const line = {
+      numerator:
+        slope.numerator,
+
+      denominator:
+        slope.denominator,
+
+      intercept,
+
+      xIntercept,
+
+      xPoint,
+
+      yPoint,
+
+      thirdPoint,
+
+      standard
+    };
+
+    if(
+      pointSatisfiesLine(
+        xPoint,
+        line
+      ) &&
+      pointSatisfiesLine(
+        yPoint,
+        line
+      ) &&
+      pointSatisfiesLine(
+        thirdPoint,
+        line
+      )
+    ){
+      return line;
+    }
+  }
+
+  throw new Error(
+    "A valid linear graph could not be generated."
+  );
+}
+
+
+/* ========================================
+   CHOICE GENERATION
+======================================== */
+
+function uniqueChoices(
+  choices
+){
+  const seen =
+    new Set();
+
+  return choices.filter(
+    choice=>{
+      if(
+        seen.has(
+          choice.text
         )
-      ) {
-        normalizedA *= -1;
-        normalizedB *= -1;
-        normalizedC *= -1;
+      ){
+        return false;
       }
 
-      return {
-        a: normalizedA,
-        b: normalizedB,
-        c: normalizedC
-      };
-    }
-
-    function formatStandard(
-      a,
-      b,
-      c
-    ) {
-      let expression = "";
-
-      if (a === 1) {
-        expression = "x";
-      } else if (a === -1) {
-        expression = "-x";
-      } else {
-        expression = `${a}x`;
-      }
-
-      if (b === 1) {
-        expression += " + y";
-      } else if (b === -1) {
-        expression += " - y";
-      } else if (b > 0) {
-        expression += ` + ${b}y`;
-      } else {
-        expression +=
-          ` - ${Math.abs(b)}y`;
-      }
-
-      return `${expression} = ${c}`;
-    }
-
-    function pointSatisfiesLine(
-      point,
-      line
-    ) {
-      return (
-        line.denominator *
-        point.y ===
-        line.numerator *
-        point.x +
-        line.denominator *
-        line.intercept
+      seen.add(
+        choice.text
       );
+
+      return true;
     }
+  );
+}
 
-    function generateValidatedLine() {
-      const slopeOptions = [
-        { numerator: 1, denominator: 1 },
-        { numerator: -1, denominator: 1 },
-        { numerator: 2, denominator: 1 },
-        { numerator: -2, denominator: 1 },
-        { numerator: 3, denominator: 1 },
-        { numerator: -3, denominator: 1 },
-        { numerator: 1, denominator: 2 },
-        { numerator: -1, denominator: 2 },
-        { numerator: 2, denominator: 3 },
-        { numerator: -2, denominator: 3 },
-        { numerator: 3, denominator: 2 },
-        { numerator: -3, denominator: 2 }
-      ];
 
-      for (
-        let attempt = 0;
-        attempt < 1000;
-        attempt += 1
-      ) {
-        const slope =
-          choose(slopeOptions);
+function createStandardChoices(
+  line
+){
+  const correct =
+    line.standard;
 
-        const multiplier =
-          choose([
-            -3, -2, -1,
-            1, 2, 3
-          ]);
+  const candidates = [
+    {
+      ...correct,
+      correct:true
+    },
 
-        const intercept =
-          slope.numerator *
-          multiplier;
+    {
+      a:
+        correct.a,
 
-        const xIntercept =
-          -intercept *
-          slope.denominator /
-          slope.numerator;
+      b:
+        -correct.b,
 
-        const thirdPoint = {
-          x: slope.denominator,
-          y:
-            intercept +
-            slope.numerator
-        };
+      c:
+        correct.c,
 
-        const xPoint = {
-          x: xIntercept,
-          y: 0
-        };
+      correct:false
+    },
 
-        const yPoint = {
-          x: 0,
-          y: intercept
-        };
+    {
+      a:
+        correct.a,
 
-        const coordinates = [
-          xPoint.x,
-          xPoint.y,
-          yPoint.x,
-          yPoint.y,
-          thirdPoint.x,
-          thirdPoint.y
-        ];
+      b:
+        correct.b,
 
-        if (
-          !coordinates.every(
-            value =>
-              Number.isInteger(value) &&
-              Math.abs(value) <= 8
-          )
-        ) {
-          continue;
-        }
+      c:
+        -correct.c,
 
-        if (
-          (
-            thirdPoint.x ===
-            xPoint.x &&
-            thirdPoint.y ===
-            xPoint.y
-          ) ||
-          (
-            thirdPoint.x ===
-            yPoint.x &&
-            thirdPoint.y ===
-            yPoint.y
-          )
-        ) {
-          continue;
-        }
+      correct:false
+    },
 
-        const standard =
-          normalizeStandard(
-            slope.numerator,
-            -slope.denominator,
-            -slope.denominator *
-              intercept
-          );
+    {
+      a:
+        correct.b,
 
-        const line = {
-          numerator:
-            slope.numerator,
+      b:
+        correct.a,
 
-          denominator:
-            slope.denominator,
+      c:
+        correct.c,
 
-          intercept,
+      correct:false
+    },
 
-          xIntercept,
+    {
+      a:
+        correct.a+1,
 
-          xPoint,
-          yPoint,
-          thirdPoint,
-          standard
-        };
+      b:
+        correct.b,
 
-        if (
-          pointSatisfiesLine(
-            xPoint,
-            line
-          ) &&
-          pointSatisfiesLine(
-            yPoint,
-            line
-          ) &&
-          pointSatisfiesLine(
-            thirdPoint,
-            line
-          )
-        ) {
-          return line;
-        }
-      }
+      c:
+        correct.c,
 
-      throw new Error(
-        "A valid linear graph could not be generated."
-      );
+      correct:false
     }
+  ].map(
+    choice=>({
+      text:
+        formatStandard(
+          choice.a,
+          choice.b,
+          choice.c
+        ),
 
-    function uniqueChoices(choices) {
-      const seen = new Set();
+      correct:
+        choice.correct
+    })
+  );
 
-      return choices.filter(
-        choice => {
-          if (
-            seen.has(
-              choice.text
-            )
-          ) {
-            return false;
-          }
+  let choices =
+    uniqueChoices(
+      candidates
+    );
 
-          seen.add(
-            choice.text
-          );
+  let adjustment =
+    2;
 
-          return true;
-        }
-      );
-    }
+  while(
+    choices.length<4
+  ){
+    choices =
+      uniqueChoices([
+        ...choices,
 
-    function createStandardChoices(line) {
-      const correct =
-        line.standard;
-
-      const candidates = [
         {
-          ...correct,
-          correct: true
-        },
-        {
-          a: correct.a,
-          b: -correct.b,
-          c: correct.c,
-          correct: false
-        },
-        {
-          a: correct.a,
-          b: correct.b,
-          c: -correct.c,
-          correct: false
-        },
-        {
-          a: correct.b,
-          b: correct.a,
-          c: correct.c,
-          correct: false
-        },
-        {
-          a: correct.a + 1,
-          b: correct.b,
-          c: correct.c,
-          correct: false
-        }
-      ].map(
-        choice => ({
           text:
             formatStandard(
-              choice.a,
-              choice.b,
-              choice.c
+              correct.a,
+              correct.b,
+              correct.c+
+              adjustment
             ),
-          correct:
-            choice.correct
-        })
-      );
 
-      let choices =
-        uniqueChoices(candidates);
-
-      let adjustment = 2;
-
-      while (
-        choices.length < 4
-      ) {
-        choices =
-          uniqueChoices([
-            ...choices,
-            {
-              text:
-                formatStandard(
-                  correct.a,
-                  correct.b,
-                  correct.c +
-                  adjustment
-                ),
-              correct: false
-            }
-          ]);
-
-        adjustment += 1;
-      }
-
-      return shuffle(
-        choices.slice(0, 4)
-      );
-    }
-
-    function createPointSlopeChoices(line) {
-      /*
-        Challenge 4 always requires Point C.
-
-        Every choice is built from Point C or an intentionally
-        incorrect version of Point C. Another valid point from the line
-        is never used as a distractor.
-      */
-
-      const point = {
-        x: line.thirdPoint.x,
-        y: line.thirdPoint.y
-      };
-
-      const choices = [
-        {
-          text:
-            formatPointSlope(
-              line.numerator,
-              line.denominator,
-              point.x,
-              point.y
-            ),
-          correct: true
-        },
-
-        {
-          text:
-            formatPointSlope(
-              -line.numerator,
-              line.denominator,
-              point.x,
-              point.y
-            ),
-          correct: false
-        },
-
-        {
-          text:
-            formatPointSlope(
-              line.numerator,
-              line.denominator,
-              point.x + 1,
-              point.y
-            ),
-          correct: false
-        },
-
-        {
-          text:
-            formatPointSlope(
-              line.numerator,
-              line.denominator,
-              point.x,
-              point.y + 1
-            ),
-          correct: false
+          correct:false
         }
-      ];
+      ]);
 
-      const uniqueTexts =
-        new Set(
-          choices.map(
-            choice => choice.text
-          )
-        );
+    adjustment+=1;
+  }
 
-      if (
-        uniqueTexts.size !==
-        choices.length
-      ) {
-        throw new Error(
-          "Challenge 4 generated duplicate answer choices."
-        );
-      }
+  return shuffle(
+    choices.slice(
+      0,
+      4
+    )
+  );
+}
 
-      const correctCount =
-        choices.filter(
-          choice => choice.correct
-        ).length;
 
-      if (correctCount !== 1) {
-        throw new Error(
-          "Challenge 4 must have exactly one correct response."
-        );
-      }
+function createPointSlopeChoices(
+  line
+){
+  const point = {
+    x:
+      line.thirdPoint.x,
 
-      return {
-        point,
-        pointLabel: "C",
-        choices:
-          shuffle(choices)
-      };
-    }
+    y:
+      line.thirdPoint.y
+  };
 
-    function validatePointSlopeChallenge(
-      line,
-      challenge
-    ) {
-      if (
-        !challenge ||
-        !challenge.point ||
-        !Array.isArray(
-          challenge.choices
-        )
-      ) {
-        return false;
-      }
-
-      if (
-        challenge.point.x !==
-          line.thirdPoint.x ||
-        challenge.point.y !==
-          line.thirdPoint.y
-      ) {
-        return false;
-      }
-
-      if (
-        challenge.choices.length !== 4
-      ) {
-        return false;
-      }
-
-      const correctChoices =
-        challenge.choices.filter(
-          choice => choice.correct
-        );
-
-      if (
-        correctChoices.length !== 1
-      ) {
-        return false;
-      }
-
-      const displayedEquations =
-        challenge.choices.map(
-          choice => choice.text
-        );
-
-      if (
-        new Set(
-          displayedEquations
-        ).size !==
-        displayedEquations.length
-      ) {
-        return false;
-      }
-
-      const expectedEquation =
+  const choices = [
+    {
+      text:
         formatPointSlope(
           line.numerator,
           line.denominator,
-          line.thirdPoint.x,
-          line.thirdPoint.y
-        );
+          point.x,
+          point.y
+        ),
 
-      return (
-        correctChoices[0].text ===
-        expectedEquation
-      );
-    }
+      correct:true
+    },
 
-    function generateRelationshipProblem(
-      line
-    ) {
-      const relationship =
-        Math.random() < 0.5
-          ? "parallel"
-          : "perpendicular";
-
-      const targetSlope =
-        relationship === "parallel"
-          ? reduceFraction(
-            line.numerator,
-            line.denominator
-          )
-          : reduceFraction(
-            -line.denominator,
-            line.numerator
-          );
-
-      let point;
-
-      do {
-        point = {
-          x:
-            randomInteger(-5, 5),
-
-          y:
-            randomInteger(-5, 5)
-        };
-      } while (
-        pointSatisfiesLine(
-          point,
-          line
-        )
-      );
-
-      const reciprocalWithoutNegative =
-        reduceFraction(
+    {
+      text:
+        formatPointSlope(
+          -line.numerator,
           line.denominator,
+          point.x,
+          point.y
+        ),
+
+      correct:false
+    },
+
+    {
+      text:
+        formatPointSlope(
+          line.numerator,
+          line.denominator,
+          point.x+1,
+          point.y
+        ),
+
+      correct:false
+    },
+
+    {
+      text:
+        formatPointSlope(
+          line.numerator,
+          line.denominator,
+          point.x,
+          point.y+1
+        ),
+
+      correct:false
+    }
+  ];
+
+  if(
+    new Set(
+      choices.map(
+        choice=>
+          choice.text
+      )
+    ).size !==
+    choices.length
+  ){
+    throw new Error(
+      "Challenge 4 generated duplicate answer choices."
+    );
+  }
+
+  if(
+    choices.filter(
+      choice=>
+        choice.correct
+    ).length !==
+    1
+  ){
+    throw new Error(
+      "Challenge 4 must have exactly one correct response."
+    );
+  }
+
+  return {
+    point,
+
+    pointLabel:
+      "C",
+
+    choices:
+      shuffle(
+        choices
+      )
+  };
+}
+
+
+function validatePointSlopeChallenge(
+  line,
+  challenge
+){
+  if(
+    !challenge ||
+    !challenge.point ||
+    !Array.isArray(
+      challenge.choices
+    )
+  ){
+    return false;
+  }
+
+  if(
+    challenge.point.x !==
+      line.thirdPoint.x ||
+    challenge.point.y !==
+      line.thirdPoint.y
+  ){
+    return false;
+  }
+
+  if(
+    challenge.choices.length !==
+    4
+  ){
+    return false;
+  }
+
+  const correctChoices =
+    challenge.choices.filter(
+      choice=>
+        choice.correct
+    );
+
+  if(
+    correctChoices.length !==
+    1
+  ){
+    return false;
+  }
+
+  if(
+    new Set(
+      challenge.choices.map(
+        choice=>
+          choice.text
+      )
+    ).size !==
+    challenge.choices.length
+  ){
+    return false;
+  }
+
+  const expectedEquation =
+    formatPointSlope(
+      line.numerator,
+      line.denominator,
+      line.thirdPoint.x,
+      line.thirdPoint.y
+    );
+
+  return (
+    correctChoices[0].text ===
+    expectedEquation
+  );
+}
+
+
+function generateRelationshipProblem(
+  line
+){
+  const relationship =
+    Math.random()<0.5
+      ? "parallel"
+      : "perpendicular";
+
+  const targetSlope =
+    relationship===
+      "parallel"
+      ? reduceFraction(
+          line.numerator,
+          line.denominator
+        )
+      : reduceFraction(
+          -line.denominator,
           line.numerator
         );
 
-      const choices = [
-        {
-          text:
-            formatPointSlope(
-              targetSlope.numerator,
-              targetSlope.denominator,
-              point.x,
-              point.y
-            ),
-          correct: true
-        },
+  let point;
 
-        {
-          text:
-            formatPointSlope(
-              line.numerator,
-              line.denominator,
-              point.x,
-              point.y
-            ),
-          correct: false
-        },
+  do{
+    point = {
+      x:
+        randomInteger(
+          -5,
+          5
+        ),
 
-        {
-          text:
-            formatPointSlope(
-              reciprocalWithoutNegative.numerator,
-              reciprocalWithoutNegative.denominator,
-              point.x,
-              point.y
-            ),
-          correct: false
-        },
+      y:
+        randomInteger(
+          -5,
+          5
+        )
+    };
+  }while(
+    pointSatisfiesLine(
+      point,
+      line
+    )
+  );
 
-        {
-          text:
-            formatPointSlope(
-              targetSlope.numerator,
-              targetSlope.denominator,
-              point.x + 1,
-              point.y
-            ),
-          correct: false
-        }
-      ];
+  const reciprocalWithoutNegative =
+    reduceFraction(
+      line.denominator,
+      line.numerator
+    );
 
-      let unique =
-        uniqueChoices(choices);
+  const choices = [
+    {
+      text:
+        formatPointSlope(
+          targetSlope.numerator,
+          targetSlope.denominator,
+          point.x,
+          point.y
+        ),
 
-      let adjustment = 1;
+      correct:true
+    },
 
-      while (
-        unique.length < 4
-      ) {
-        unique =
-          uniqueChoices([
-            ...unique,
-            {
-              text:
-                formatPointSlope(
-                  -targetSlope.numerator,
-                  targetSlope.denominator,
-                  point.x,
-                  point.y + adjustment
-                ),
-              correct: false
-            }
-          ]);
+    {
+      text:
+        formatPointSlope(
+          line.numerator,
+          line.denominator,
+          point.x,
+          point.y
+        ),
 
-        adjustment += 1;
-      }
+      correct:false
+    },
 
-      return {
-        relationship,
-        point,
-        targetSlope,
-        choices:
-          shuffle(
-            unique.slice(0, 4)
-          )
-      };
+    {
+      text:
+        formatPointSlope(
+          reciprocalWithoutNegative.numerator,
+          reciprocalWithoutNegative.denominator,
+          point.x,
+          point.y
+        ),
+
+      correct:false
+    },
+
+    {
+      text:
+        formatPointSlope(
+          targetSlope.numerator,
+          targetSlope.denominator,
+          point.x+1,
+          point.y
+        ),
+
+      correct:false
     }
+  ];
 
-    function graphSvg(line) {
-      const size = 560;
-      const padding = 48;
-      const limit = 10;
+  let unique =
+    uniqueChoices(
+      choices
+    );
 
-      const plotSize =
-        size - 2 * padding;
+  let adjustment =
+    1;
 
-      function toX(x) {
-        return (
-          padding +
-          (
-            (x + limit) /
-            (2 * limit)
-          ) *
-          plotSize
-        );
-      }
+  while(
+    unique.length<4
+  ){
+    unique =
+      uniqueChoices([
+        ...unique,
 
-      function toY(y) {
-        return (
-          padding +
-          (
-            (limit - y) /
-            (2 * limit)
-          ) *
-          plotSize
-        );
-      }
+        {
+          text:
+            formatPointSlope(
+              -targetSlope.numerator,
+              targetSlope.denominator,
+              point.x,
+              point.y+
+              adjustment
+            ),
 
-      const grid = [];
-      const labels = [];
-
-      for (
-        let value = -limit;
-        value <= limit;
-        value += 1
-      ) {
-        const x = toX(value);
-        const y = toY(value);
-
-        grid.push(`
-          <line
-            x1="${x}"
-            y1="${padding}"
-            x2="${x}"
-            y2="${size - padding}"
-            stroke="${
-              value === 0
-                ? "#0f2d44"
-                : "#e1e8ed"
-            }"
-            stroke-width="${
-              value === 0
-                ? 3
-                : 1
-            }"
-          />
-        `);
-
-        grid.push(`
-          <line
-            x1="${padding}"
-            y1="${y}"
-            x2="${size - padding}"
-            y2="${y}"
-            stroke="${
-              value === 0
-                ? "#0f2d44"
-                : "#e1e8ed"
-            }"
-            stroke-width="${
-              value === 0
-                ? 3
-                : 1
-            }"
-          />
-        `);
-
-        if (
-          value !== 0 &&
-          value % 2 === 0
-        ) {
-          labels.push(`
-            <text
-              x="${x}"
-              y="${toY(0) + 19}"
-              text-anchor="middle"
-              font-family="Arial"
-              font-size="12"
-              fill="#52606d"
-            >
-              ${value}
-            </text>
-          `);
-
-          labels.push(`
-            <text
-              x="${toX(0) - 10}"
-              y="${y + 4}"
-              text-anchor="end"
-              font-family="Arial"
-              font-size="12"
-              fill="#52606d"
-            >
-              ${value}
-            </text>
-          `);
+          correct:false
         }
-      }
+      ]);
 
-      const lineYLeft =
-        (
-          line.numerator /
-          line.denominator
-        ) * (-limit) +
-        line.intercept;
+    adjustment+=1;
+  }
 
-      const lineYRight =
-        (
-          line.numerator /
-          line.denominator
-        ) * limit +
-        line.intercept;
+  const finalChoices =
+    shuffle(
+      unique.slice(
+        0,
+        4
+      )
+    );
 
-      const points = [
-        {
-          ...line.xPoint,
-          label: "A"
-        },
-        {
-          ...line.yPoint,
-          label: "B"
-        },
-        {
-          ...line.thirdPoint,
-          label: "C"
-        }
-      ];
+  if(
+    finalChoices.filter(
+      choice=>
+        choice.correct
+    ).length !==
+    1
+  ){
+    throw new Error(
+      "Relationship challenge must contain exactly one correct choice."
+    );
+  }
 
-      const pointMarkup =
-        points.map(
-          point => `
-            <circle
-              cx="${toX(point.x)}"
-              cy="${toY(point.y)}"
-              r="7"
-              fill="#f2b705"
-              stroke="#0f2d44"
-              stroke-width="3"
-            />
+  return {
+    relationship,
+    point,
+    targetSlope,
+    choices:
+      finalChoices
+  };
+}
 
-            <rect
-              x="${toX(point.x) + 9}"
-              y="${toY(point.y) - 29}"
-              width="82"
-              height="25"
-              rx="5"
-              fill="#ffffff"
-              stroke="#0f2d44"
-              stroke-width="1"
-            />
 
-            <text
-              x="${toX(point.x) + 50}"
-              y="${toY(point.y) - 12}"
-              text-anchor="middle"
-              font-family="Arial"
-              font-size="13"
-              font-weight="700"
-              fill="#0f2d44"
-            >
-              ${point.label} (${point.x}, ${point.y})
-            </text>
-          `
-        ).join("");
+/* ========================================
+   GRAPH
+======================================== */
 
-      return `
-        <svg
-          viewBox="0 0 ${size} ${size}"
-          role="img"
-          aria-label="Coordinate graph of a line through labeled points A, B, and C"
+function graphSvg(
+  line,
+  idSuffix="main"
+){
+  const size =
+    560;
+
+  const padding =
+    48;
+
+  const limit =
+    10;
+
+  const plotSize =
+    size -
+    2*padding;
+
+  const safeId =
+    String(
+      idSuffix
+    ).replace(
+      /[^a-zA-Z0-9_-]/g,
+      ""
+    );
+
+  const clipId =
+    `plotClip-${safeId}`;
+
+  function toX(x){
+    return (
+      padding +
+      (
+        (x+limit)/
+        (2*limit)
+      ) *
+      plotSize
+    );
+  }
+
+  function toY(y){
+    return (
+      padding +
+      (
+        (limit-y)/
+        (2*limit)
+      ) *
+      plotSize
+    );
+  }
+
+  const grid=[];
+  const labels=[];
+
+  for(
+    let value=
+      -limit;
+    value<=
+      limit;
+    value+=1
+  ){
+    const x =
+      toX(
+        value
+      );
+
+    const y =
+      toY(
+        value
+      );
+
+    grid.push(`
+      <line
+        x1="${x}"
+        y1="${padding}"
+        x2="${x}"
+        y2="${size-padding}"
+        stroke="${
+          value===0
+            ? "#0f2d44"
+            : "#e1e8ed"
+        }"
+        stroke-width="${
+          value===0
+            ? 3
+            : 1
+        }"
+      />
+    `);
+
+    grid.push(`
+      <line
+        x1="${padding}"
+        y1="${y}"
+        x2="${size-padding}"
+        y2="${y}"
+        stroke="${
+          value===0
+            ? "#0f2d44"
+            : "#e1e8ed"
+        }"
+        stroke-width="${
+          value===0
+            ? 3
+            : 1
+        }"
+      />
+    `);
+
+    if(
+      value!==0 &&
+      value%2===0
+    ){
+      labels.push(`
+        <text
+          x="${x}"
+          y="${toY(0)+19}"
+          text-anchor="middle"
+          font-family="Arial"
+          font-size="12"
+          fill="#52606d"
         >
-          <defs>
-            <clipPath id="plotClip">
-              <rect
-                x="${padding}"
-                y="${padding}"
-                width="${plotSize}"
-                height="${plotSize}"
-              />
-            </clipPath>
-          </defs>
+          ${value}
+        </text>
+      `);
 
+      labels.push(`
+        <text
+          x="${toX(0)-10}"
+          y="${y+4}"
+          text-anchor="end"
+          font-family="Arial"
+          font-size="12"
+          fill="#52606d"
+        >
+          ${value}
+        </text>
+      `);
+    }
+  }
+
+  const slope =
+    line.numerator/
+    line.denominator;
+
+  const lineYLeft =
+    slope*
+    (-limit)+
+    line.intercept;
+
+  const lineYRight =
+    slope*
+    limit+
+    line.intercept;
+
+  const points = [
+    {
+      ...line.xPoint,
+      label:"A"
+    },
+
+    {
+      ...line.yPoint,
+      label:"B"
+    },
+
+    {
+      ...line.thirdPoint,
+      label:"C"
+    }
+  ];
+
+  const pointMarkup =
+    points.map(
+      point=>`
+        <circle
+          cx="${toX(point.x)}"
+          cy="${toY(point.y)}"
+          r="7"
+          fill="#f2b705"
+          stroke="#0f2d44"
+          stroke-width="3"
+        />
+
+        <rect
+          x="${toX(point.x)+9}"
+          y="${toY(point.y)-29}"
+          width="82"
+          height="25"
+          rx="5"
+          fill="#ffffff"
+          stroke="#0f2d44"
+          stroke-width="1"
+        />
+
+        <text
+          x="${toX(point.x)+50}"
+          y="${toY(point.y)-12}"
+          text-anchor="middle"
+          font-family="Arial"
+          font-size="13"
+          font-weight="700"
+          fill="#0f2d44"
+        >
+          ${point.label} (${point.x}, ${point.y})
+        </text>
+      `
+    ).join("");
+
+  return `
+    <svg
+      viewBox="0 0 ${size} ${size}"
+      role="img"
+      aria-label="Coordinate graph of a line through labeled points A, B, and C"
+    >
+
+      <defs>
+        <clipPath id="${clipId}">
           <rect
             x="${padding}"
             y="${padding}"
             width="${plotSize}"
             height="${plotSize}"
-            fill="#ffffff"
-            stroke="#cbd5df"
-            stroke-width="1"
           />
+        </clipPath>
+      </defs>
 
-          ${grid.join("")}
-          ${labels.join("")}
+      <rect
+        x="${padding}"
+        y="${padding}"
+        width="${plotSize}"
+        height="${plotSize}"
+        fill="#ffffff"
+        stroke="#cbd5df"
+        stroke-width="1"
+      />
 
-          <line
-            x1="${toX(-limit)}"
-            y1="${toY(lineYLeft)}"
-            x2="${toX(limit)}"
-            y2="${toY(lineYRight)}"
-            stroke="#2f7d46"
-            stroke-width="6"
-            stroke-linecap="round"
-            clip-path="url(#plotClip)"
-          />
+      ${grid.join("")}
+      ${labels.join("")}
 
-          ${pointMarkup}
+      <line
+        x1="${toX(-limit)}"
+        y1="${toY(lineYLeft)}"
+        x2="${toX(limit)}"
+        y2="${toY(lineYRight)}"
+        stroke="#2f7d46"
+        stroke-width="6"
+        stroke-linecap="round"
+        clip-path="url(#${clipId})"
+      />
 
-          <text
-            x="${size - padding + 17}"
-            y="${toY(0) + 5}"
-            font-family="Arial"
-            font-size="16"
-            font-weight="700"
-            fill="#0f2d44"
-          >
-            x
-          </text>
+      ${pointMarkup}
 
-          <text
-            x="${toX(0) + 8}"
-            y="${padding - 15}"
-            font-family="Arial"
-            font-size="16"
-            font-weight="700"
-            fill="#0f2d44"
-          >
-            y
-          </text>
-        </svg>
-      `;
+      <text
+        x="${size-padding+17}"
+        y="${toY(0)+5}"
+        font-family="Arial"
+        font-size="16"
+        font-weight="700"
+        fill="#0f2d44"
+      >
+        x
+      </text>
+
+      <text
+        x="${toX(0)+8}"
+        y="${padding-15}"
+        font-family="Arial"
+        font-size="16"
+        font-weight="700"
+        fill="#0f2d44"
+      >
+        y
+      </text>
+
+    </svg>
+  `;
+}
+
+
+function displayGraphAndPoints(){
+  document.getElementById(
+    "graphContainer"
+  ).innerHTML =
+    graphSvg(
+      state.line,
+      "activity"
+    );
+
+  document.getElementById(
+    "pointSummary"
+  ).innerHTML = `
+    <h3>
+      Labeled Points
+    </h3>
+
+    <div class="point-chip">
+      A (${state.line.xPoint.x}, ${state.line.xPoint.y})
+      — x-intercept
+    </div>
+
+    <div class="point-chip">
+      B (${state.line.yPoint.x}, ${state.line.yPoint.y})
+      — y-intercept
+    </div>
+
+    <div class="point-chip">
+      C (${state.line.thirdPoint.x}, ${state.line.thirdPoint.y})
+      — required for Challenge 4
+    </div>
+
+    <p style="margin-bottom:0;">
+      The same graph and points are used for every challenge.
+    </p>
+  `;
+}
+
+
+/* ========================================
+   RESPONSE STATE
+======================================== */
+
+function emptyResponseForChallenge(
+  index
+){
+  if(
+    index===0
+  ){
+    return {
+      slopeAnswer:""
+    };
+  }
+
+  if(
+    index===1
+  ){
+    return {
+      slopeCoefficient:"",
+      interceptAnswer:""
+    };
+  }
+
+  if(
+    index===2
+  ){
+    return {
+      standardChoice:null
+    };
+  }
+
+  if(
+    index===3
+  ){
+    return {
+      pointSlopeChoice:null
+    };
+  }
+
+  return {
+    relationshipChoice:null
+  };
+}
+
+
+function ensureResponses(){
+  if(
+    !Array.isArray(
+      state.responses
+    )
+  ){
+    state.responses=[
+      null,
+      null,
+      null,
+      null,
+      null
+    ];
+  }
+
+  while(
+    state.responses.length<
+    5
+  ){
+    state.responses.push(
+      null
+    );
+  }
+
+  for(
+    let index=0;
+    index<5;
+    index+=1
+  ){
+    if(
+      !state.responses[
+        index
+      ]
+    ){
+      state.responses[
+        index
+      ] =
+        emptyResponseForChallenge(
+          index
+        );
     }
+  }
 
-    function displayGraphAndPoints() {
-      document.getElementById(
-        "graphContainer"
-      ).innerHTML =
-        graphSvg(state.line);
+  if(
+    !Array.isArray(
+      state.boardImages
+    )
+  ){
+    state.boardImages=[
+      "",
+      "",
+      "",
+      "",
+      ""
+    ];
+  }
 
-      document.getElementById(
-        "pointSummary"
-      ).innerHTML = `
-        <h3>
-          Labeled Points
-        </h3>
+  while(
+    state.boardImages.length<
+    5
+  ){
+    state.boardImages.push(
+      ""
+    );
+  }
+}
 
-        <div class="point-chip">
-          A (${state.line.xPoint.x}, ${state.line.xPoint.y})
-          — x-intercept
-        </div>
 
-        <div class="point-chip">
-          B (${state.line.yPoint.x}, ${state.line.yPoint.y})
-          — y-intercept
-        </div>
+function valueOf(
+  id
+){
+  const element =
+    document.getElementById(
+      id
+    );
 
-        <div class="point-chip">
-          C (${state.line.thirdPoint.x}, ${state.line.thirdPoint.y})
-          — required for Challenge 4
-        </div>
+  return element
+    ? String(
+        element.value
+      ).trim()
+    : "";
+}
 
-        <p style="margin-bottom: 0;">
-          The same graph and points are used for every challenge.
-        </p>
-      `;
-    }
 
-    function renderCurrentChallenge() {
-      const index =
-        state.currentChallenge;
+function setValue(
+  id,
+  value
+){
+  const element =
+    document.getElementById(
+      id
+    );
 
-      document.getElementById(
-        "problemKicker"
-      ).textContent =
-        `Challenge ${index + 1} of 5`;
+  if(
+    element
+  ){
+    element.value =
+      value ?? "";
+  }
+}
 
-      document.getElementById(
-        "challengeStatus"
-      ).textContent =
-        `${index + 1} of 5`;
 
-      document.getElementById(
-        "progressText"
-      ).textContent =
-        `Challenge ${index + 1} of 5`;
+function selectedRadio(
+  name
+){
+  const selected =
+    document.querySelector(
+      `input[name="${name}"]:checked`
+    );
 
-      document.getElementById(
-        "progressFill"
-      ).style.width =
-        `${index / 5 * 100}%`;
+  return selected
+    ? Number(
+        selected.value
+      )
+    : -1;
+}
 
-      updateProgressStrip();
-      displayGraphAndPoints();
 
-      if (index === 0) {
-        renderSlopeChallenge();
-      } else if (index === 1) {
-        renderSlopeInterceptChallenge();
-      } else if (index === 2) {
-        renderStandardChallenge();
-      } else if (index === 3) {
-        renderPointSlopeChallenge();
-      } else {
-        renderRelationshipChallenge();
+function restoreRadio(
+  name,
+  index
+){
+  if(
+    index===null ||
+    index===undefined ||
+    index<0
+  ){
+    return;
+  }
+
+  const radio =
+    document.querySelector(
+      `input[name="${name}"][value="${index}"]`
+    );
+
+  if(
+    radio
+  ){
+    radio.checked=
+      true;
+  }
+}
+
+
+function captureCurrentResponse(){
+  ensureResponses();
+
+  const index =
+    state.currentChallenge;
+
+  const response =
+    state.responses[
+      index
+    ];
+
+  if(
+    index===0
+  ){
+    response.slopeAnswer =
+      valueOf(
+        "slopeAnswer"
+      );
+  }
+
+  if(
+    index===1
+  ){
+    response.slopeCoefficient =
+      valueOf(
+        "slopeCoefficient"
+      );
+
+    response.interceptAnswer =
+      valueOf(
+        "interceptAnswer"
+      );
+  }
+
+  if(
+    index===2
+  ){
+    const selected =
+      selectedRadio(
+        "standardChoice"
+      );
+
+    response.standardChoice =
+      selected<0
+        ? null
+        : selected;
+  }
+
+  if(
+    index===3
+  ){
+    const selected =
+      selectedRadio(
+        "pointSlopeChoice"
+      );
+
+    response.pointSlopeChoice =
+      selected<0
+        ? null
+        : selected;
+  }
+
+  if(
+    index===4
+  ){
+    const selected =
+      selectedRadio(
+        "relationshipChoice"
+      );
+
+    response.relationshipChoice =
+      selected<0
+        ? null
+        : selected;
+  }
+}
+
+
+function restoreCurrentResponse(){
+  ensureResponses();
+
+  const index =
+    state.currentChallenge;
+
+  const response =
+    state.responses[
+      index
+    ];
+
+  if(
+    index===0
+  ){
+    setValue(
+      "slopeAnswer",
+      response.slopeAnswer
+    );
+  }
+
+  if(
+    index===1
+  ){
+    setValue(
+      "slopeCoefficient",
+      response.slopeCoefficient
+    );
+
+    setValue(
+      "interceptAnswer",
+      response.interceptAnswer
+    );
+  }
+
+  if(
+    index===2
+  ){
+    restoreRadio(
+      "standardChoice",
+      response.standardChoice
+    );
+  }
+
+  if(
+    index===3
+  ){
+    restoreRadio(
+      "pointSlopeChoice",
+      response.pointSlopeChoice
+    );
+  }
+
+  if(
+    index===4
+  ){
+    restoreRadio(
+      "relationshipChoice",
+      response.relationshipChoice
+    );
+  }
+}
+
+
+function attachAutosave(){
+  problemContent
+    .querySelectorAll(
+      "input, select"
+    )
+    .forEach(
+      element=>{
+        const eventName =
+          element.type===
+            "radio" ||
+          element.tagName===
+            "SELECT"
+            ? "change"
+            : "input";
+
+        element.addEventListener(
+          eventName,
+          ()=>{
+            captureCurrentResponse();
+            saveState();
+          }
+        );
       }
+    );
+}
 
-      setFeedback(
-        "Complete the response and check your work.",
+
+/* ========================================
+   CHALLENGE RENDERING
+======================================== */
+
+function renderCurrentChallenge(){
+  const index =
+    state.currentChallenge;
+
+  document.getElementById(
+    "problemKicker"
+  ).textContent =
+    `Challenge ${index+1} of 5`;
+
+  document.getElementById(
+    "challengeStatus"
+  ).textContent =
+    `${index+1} of 5`;
+
+  document.getElementById(
+    "progressText"
+  ).textContent =
+    `Challenge ${index+1} of 5`;
+
+  document.getElementById(
+    "progressFill"
+  ).style.width =
+    `${index/5*100}%`;
+
+  updateProgressStrip();
+  displayGraphAndPoints();
+
+  if(
+    index===0
+  ){
+    renderSlopeChallenge();
+  }else if(
+    index===1
+  ){
+    renderSlopeInterceptChallenge();
+  }else if(
+    index===2
+  ){
+    renderStandardChallenge();
+  }else if(
+    index===3
+  ){
+    renderPointSlopeChallenge();
+  }else{
+    renderRelationshipChallenge();
+  }
+
+  restoreCurrentResponse();
+  attachAutosave();
+
+  setFeedback(
+    "Complete the response and check your work.",
+    ""
+  );
+
+  resetBoard();
+
+  window.setTimeout(
+    ()=>{
+      restoreBoardImage(
+        index
+      );
+    },
+    100
+  );
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+  announce(
+    `Challenge ${index+1} of 5 is displayed.`
+  );
+}
+
+
+function updateProgressStrip(){
+  const steps =
+    document.querySelectorAll(
+      ".progress-step"
+    );
+
+  steps.forEach(
+    (
+      step,
+      index
+    )=>{
+      const label =
+        step.dataset.label;
+
+      step.classList.remove(
+        "complete",
+        "current"
+      );
+
+      step.textContent =
+        label;
+
+      if(
+        index<
+        state.currentChallenge
+      ){
+        step.classList.add(
+          "complete"
+        );
+
+        step.textContent =
+          `✓ ${label}`;
+      }else if(
+        index===
+        state.currentChallenge
+      ){
+        step.classList.add(
+          "current"
+        );
+      }
+    }
+  );
+}
+
+
+function renderSlopeChallenge(){
+  document.getElementById(
+    "problemTitle"
+  ).textContent =
+    "Calculate the Slope";
+
+  problemContent.innerHTML = `
+    <div class="callout callout-blue">
+
+      <h3>
+        Directions
+      </h3>
+
+      <p style="margin-bottom:0;">
+        Use any two labeled points to calculate the line’s slope.
+        Enter an integer, reduced fraction, or equivalent decimal.
+      </p>
+
+    </div>
+
+    <div class="field">
+
+      <label for="slopeAnswer">
+        Slope, m
+      </label>
+
+      <input
+        id="slopeAnswer"
+        type="text"
+        inputmode="text"
+        autocomplete="off"
+        placeholder="Example: -3/2"
+      >
+
+    </div>
+  `;
+}
+
+
+function renderSlopeInterceptChallenge(){
+  document.getElementById(
+    "problemTitle"
+  ).textContent =
+    "Write Slope-Intercept Form";
+
+  problemContent.innerHTML = `
+    <div class="callout callout-green">
+
+      <h3>
+        Directions
+      </h3>
+
+      <p style="margin-bottom:0;">
+        Use the graph to enter the slope and y-intercept in the
+        equation y = mx + b.
+      </p>
+
+    </div>
+
+    <div
+      class="equation-template"
+      aria-label="Slope-intercept equation template"
+    >
+
+      <span>
+        y =
+      </span>
+
+      <label
+        class="screen-reader-only"
+        for="slopeCoefficient"
+      >
+        Slope coefficient m
+      </label>
+
+      <input
+        id="slopeCoefficient"
+        type="text"
+        autocomplete="off"
+        placeholder="m"
+      >
+
+      <span>
+        x +
+      </span>
+
+      <label
+        class="screen-reader-only"
+        for="interceptAnswer"
+      >
+        Y-intercept b
+      </label>
+
+      <input
+        id="interceptAnswer"
+        type="number"
+        step="any"
+        inputmode="decimal"
+        autocomplete="off"
+        placeholder="b"
+      >
+
+    </div>
+
+    <p class="field-help">
+      Enter b as a signed number. For example, enter -4 when the
+      line crosses the y-axis at -4.
+    </p>
+  `;
+}
+
+
+function renderStandardChallenge(){
+  document.getElementById(
+    "problemTitle"
+  ).textContent =
+    "Select the Standard Form";
+
+  problemContent.innerHTML = `
+    <div class="callout callout-yellow">
+
+      <h3>
+        Directions
+      </h3>
+
+      <p style="margin-bottom:0;">
+        Select the standard-form equation equivalent to the graphed
+        line.
+      </p>
+
+    </div>
+
+    <fieldset class="field">
+
+      <legend class="field-label">
+        Which equation is written correctly in Ax + By = C form?
+      </legend>
+
+      <div class="choice-list">
+
+        ${state.standardChoices.map(
+          (
+            choice,
+            index
+          )=>`
+            <label class="choice">
+
+              <input
+                type="radio"
+                name="standardChoice"
+                value="${index}"
+              >
+
+              <span class="choice-equation">
+                ${choice.text}
+              </span>
+
+            </label>
+          `
+        ).join("")}
+
+      </div>
+
+    </fieldset>
+  `;
+}
+
+
+function renderPointSlopeChallenge(){
+  document.getElementById(
+    "problemTitle"
+  ).textContent =
+    "Select the Point-Slope Form";
+
+  const point =
+    state.pointSlopeChoices
+      .point;
+
+  problemContent.innerHTML = `
+    <div class="callout callout-purple">
+
+      <h3>
+        Directions
+      </h3>
+
+      <p>
+        Use
+        <strong>
+          Point C (${point.x}, ${point.y})
+        </strong>
+        and the slope of the graphed line.
+      </p>
+
+      <p style="margin-bottom:0;">
+        Select the equation that correctly substitutes Point C into
+        <strong>
+          y − y₁ = m(x − x₁)
+        </strong>.
+      </p>
+
+    </div>
+
+    <div class="equation-display">
+      Required point: C (${point.x}, ${point.y})
+    </div>
+
+    <fieldset class="field">
+
+      <legend class="field-label">
+        Which point-slope equation uses Point C and the correct slope?
+      </legend>
+
+      <div class="choice-list">
+
+        ${state.pointSlopeChoices.choices.map(
+          (
+            choice,
+            index
+          )=>`
+            <label class="choice">
+
+              <input
+                type="radio"
+                name="pointSlopeChoice"
+                value="${index}"
+              >
+
+              <span class="choice-equation">
+                ${choice.text}
+              </span>
+
+            </label>
+          `
+        ).join("")}
+
+      </div>
+
+    </fieldset>
+  `;
+}
+
+
+function renderRelationshipChallenge(){
+  document.getElementById(
+    "problemTitle"
+  ).textContent =
+    "Parallel and Perpendicular Lines";
+
+  const problem =
+    state.relationshipProblem;
+
+  problemContent.innerHTML = `
+    <div class="callout callout-green">
+
+      <h3>
+        Final Challenge
+      </h3>
+
+      <p>
+        Select the equation of a line that is
+        <strong>
+          ${problem.relationship}
+        </strong>
+        to the graphed line and passes through
+        <strong>
+          (${problem.point.x}, ${problem.point.y})
+        </strong>.
+      </p>
+
+      <p style="margin-bottom:0;">
+        The answer choices are written in point-slope form.
+      </p>
+
+    </div>
+
+    <fieldset class="field">
+
+      <legend class="field-label">
+        Which equation satisfies both requirements?
+      </legend>
+
+      <div class="choice-list">
+
+        ${problem.choices.map(
+          (
+            choice,
+            index
+          )=>`
+            <label class="choice">
+
+              <input
+                type="radio"
+                name="relationshipChoice"
+                value="${index}"
+              >
+
+              <span class="choice-equation">
+                ${choice.text}
+              </span>
+
+            </label>
+          `
+        ).join("")}
+
+      </div>
+
+    </fieldset>
+  `;
+}
+
+
+/* ========================================
+   RESPONSE VALIDATION
+======================================== */
+
+function parseNumericResponse(
+  text
+){
+  const cleaned =
+    text
+      .trim()
+      .replace(
+        /\s+/g,
         ""
       );
 
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
+  if(
+    cleaned===""
+  ){
+    return {
+      valid:false,
+      value:NaN
+    };
+  }
 
-      announce(
-        `Challenge ${index + 1} of 5 is displayed.`
+  if(
+    cleaned.includes(
+      "/"
+    )
+  ){
+    const parts =
+      cleaned.split(
+        "/"
       );
-    }
 
-    function updateProgressStrip() {
-      const steps =
-        document.querySelectorAll(
-          ".progress-step"
-        );
-
-      steps.forEach(
-        (step, index) => {
-          const label =
-            step.dataset.label;
-
-          step.classList.remove(
-            "complete",
-            "current"
-          );
-
-          step.textContent = label;
-
-          if (
-            index <
-            state.currentChallenge
-          ) {
-            step.classList.add(
-              "complete"
-            );
-
-            step.textContent =
-              `✓ ${label}`;
-          } else if (
-            index ===
-            state.currentChallenge
-          ) {
-            step.classList.add(
-              "current"
-            );
-          }
-        }
-      );
-    }
-
-    function renderSlopeChallenge() {
-      document.getElementById(
-        "problemTitle"
-      ).textContent =
-        "Calculate the Slope";
-
-      problemContent.innerHTML = `
-        <div class="callout callout-blue">
-          <h3>
-            Directions
-          </h3>
-
-          <p style="margin-bottom: 0;">
-            Use any two labeled points to calculate the line’s slope.
-            Enter an integer, reduced fraction, or equivalent decimal.
-          </p>
-        </div>
-
-        <div class="field">
-          <label for="slopeAnswer">
-            Slope, m
-          </label>
-
-          <input
-            id="slopeAnswer"
-            type="text"
-            inputmode="text"
-            autocomplete="off"
-            placeholder="Example: -3/2"
-          >
-        </div>
-      `;
-    }
-
-    function renderSlopeInterceptChallenge() {
-      document.getElementById(
-        "problemTitle"
-      ).textContent =
-        "Write Slope-Intercept Form";
-
-      problemContent.innerHTML = `
-        <div class="callout callout-green">
-          <h3>
-            Directions
-          </h3>
-
-          <p style="margin-bottom: 0;">
-            Use the graph to enter the slope and y-intercept in the
-            equation y = mx + b.
-          </p>
-        </div>
-
-        <div
-          class="equation-template"
-          aria-label="Slope-intercept equation template"
-        >
-          <span>
-            y =
-          </span>
-
-          <label
-            class="screen-reader-only"
-            for="slopeCoefficient"
-          >
-            Slope coefficient m
-          </label>
-
-          <input
-            id="slopeCoefficient"
-            type="text"
-            autocomplete="off"
-            placeholder="m"
-          >
-
-          <span>
-            x +
-          </span>
-
-          <label
-            class="screen-reader-only"
-            for="interceptAnswer"
-          >
-            Y-intercept b
-          </label>
-
-          <input
-            id="interceptAnswer"
-            type="number"
-            step="any"
-            inputmode="decimal"
-            autocomplete="off"
-            placeholder="b"
-          >
-        </div>
-
-        <p class="field-help">
-          Enter b as a signed number. For example, enter -4 when the
-          line crosses the y-axis at -4.
-        </p>
-      `;
-    }
-
-    function renderStandardChallenge() {
-      document.getElementById(
-        "problemTitle"
-      ).textContent =
-        "Select the Standard Form";
-
-      problemContent.innerHTML = `
-        <div class="callout callout-yellow">
-          <h3>
-            Directions
-          </h3>
-
-          <p style="margin-bottom: 0;">
-            Select the standard-form equation equivalent to the
-            graphed line.
-          </p>
-        </div>
-
-        <fieldset class="field">
-          <legend class="field-label">
-            Which equation is written correctly in Ax + By = C form?
-          </legend>
-
-          <div class="choice-list">
-            ${state.standardChoices.map(
-              (choice, index) => `
-                <label class="choice">
-                  <input
-                    type="radio"
-                    name="standardChoice"
-                    value="${index}"
-                  >
-
-                  <span class="choice-equation">
-                    ${choice.text}
-                  </span>
-                </label>
-              `
-            ).join("")}
-          </div>
-        </fieldset>
-      `;
-    }
-
-    function renderPointSlopeChallenge() {
-      document.getElementById(
-        "problemTitle"
-      ).textContent =
-        "Select the Point-Slope Form";
-
-      const point =
-        state.pointSlopeChoices.point;
-
-      problemContent.innerHTML = `
-        <div class="callout callout-purple">
-          <h3>
-            Directions
-          </h3>
-
-          <p>
-            Use
-            <strong>Point C (${point.x}, ${point.y})</strong>
-            and the slope of the graphed line.
-          </p>
-
-          <p style="margin-bottom: 0;">
-            Select the equation that correctly substitutes Point C
-            into
-            <strong>y − y₁ = m(x − x₁)</strong>.
-          </p>
-        </div>
-
-        <div class="equation-display">
-          Required point: C (${point.x}, ${point.y})
-        </div>
-
-        <fieldset class="field">
-          <legend class="field-label">
-            Which point-slope equation uses Point C and the correct
-            slope?
-          </legend>
-
-          <div class="choice-list">
-            ${state.pointSlopeChoices.choices.map(
-              (choice, index) => `
-                <label class="choice">
-                  <input
-                    type="radio"
-                    name="pointSlopeChoice"
-                    value="${index}"
-                  >
-
-                  <span class="choice-equation">
-                    ${choice.text}
-                  </span>
-                </label>
-              `
-            ).join("")}
-          </div>
-        </fieldset>
-      `;
-    }
-
-    function renderRelationshipChallenge() {
-      document.getElementById(
-        "problemTitle"
-      ).textContent =
-        "Parallel and Perpendicular Lines";
-
-      const problem =
-        state.relationshipProblem;
-
-      problemContent.innerHTML = `
-        <div class="callout callout-green">
-          <h3>
-            Final Challenge
-          </h3>
-
-          <p>
-            Select the equation of a line that is
-            <strong>${problem.relationship}</strong>
-            to the graphed line and passes through
-            <strong>(${problem.point.x}, ${problem.point.y})</strong>.
-          </p>
-
-          <p style="margin-bottom: 0;">
-            The answer choices are written in point-slope form.
-          </p>
-        </div>
-
-        <fieldset class="field">
-          <legend class="field-label">
-            Which equation satisfies both requirements?
-          </legend>
-
-          <div class="choice-list">
-            ${problem.choices.map(
-              (choice, index) => `
-                <label class="choice">
-                  <input
-                    type="radio"
-                    name="relationshipChoice"
-                    value="${index}"
-                  >
-
-                  <span class="choice-equation">
-                    ${choice.text}
-                  </span>
-                </label>
-              `
-            ).join("")}
-          </div>
-        </fieldset>
-      `;
-    }
-
-    function parseNumericResponse(text) {
-      const cleaned =
-        text
-          .trim()
-          .replace(/\s+/g, "");
-
-      if (cleaned === "") {
-        return {
-          valid: false,
-          value: NaN
-        };
-      }
-
-      if (
-        cleaned.includes("/")
-      ) {
-        const parts =
-          cleaned.split("/");
-
-        if (
-          parts.length !== 2
-        ) {
-          return {
-            valid: false,
-            value: NaN
-          };
-        }
-
-        const numerator =
-          Number(parts[0]);
-
-        const denominator =
-          Number(parts[1]);
-
-        if (
-          !Number.isFinite(numerator) ||
-          !Number.isFinite(denominator) ||
-          denominator === 0
-        ) {
-          return {
-            valid: false,
-            value: NaN
-          };
-        }
-
-        return {
-          valid: true,
-          value:
-            numerator /
-            denominator
-        };
-      }
-
-      const value =
-        Number(cleaned);
-
+    if(
+      parts.length!==2
+    ){
       return {
-        valid:
-          Number.isFinite(value),
+        valid:false,
+        value:NaN
+      };
+    }
 
+    const numerator =
+      Number(
+        parts[0]
+      );
+
+    const denominator =
+      Number(
+        parts[1]
+      );
+
+    if(
+      !Number.isFinite(
+        numerator
+      ) ||
+      !Number.isFinite(
+        denominator
+      ) ||
+      denominator===0
+    ){
+      return {
+        valid:false,
+        value:NaN
+      };
+    }
+
+    return {
+      valid:true,
+
+      value:
+        numerator/
+        denominator
+    };
+  }
+
+  const value =
+    Number(
+      cleaned
+    );
+
+  return {
+    valid:
+      Number.isFinite(
         value
-      };
-    }
-
-    function nearlyEqual(
-      first,
-      second,
-      tolerance = 0.0001
-    ) {
-      return (
-        Math.abs(first - second) <=
-        tolerance
-      );
-    }
-
-    function selectedRadio(name) {
-      const selected =
-        document.querySelector(
-          `input[name="${name}"]:checked`
-        );
-
-      return selected
-        ? Number(selected.value)
-        : -1;
-    }
-
-    function checkCurrentChallenge() {
-      state.totalChecks += 1;
-
-      document.getElementById(
-        "checksStatus"
-      ).textContent =
-        String(state.totalChecks);
-
-      let result;
-
-      if (
-        state.currentChallenge === 0
-      ) {
-        result = checkSlope();
-      } else if (
-        state.currentChallenge === 1
-      ) {
-        result =
-          checkSlopeIntercept();
-      } else if (
-        state.currentChallenge === 2
-      ) {
-        result =
-          checkStandard();
-      } else if (
-        state.currentChallenge === 3
-      ) {
-        result =
-          checkPointSlope();
-      } else {
-        result =
-          checkRelationship();
-      }
-
-      if (!result.valid) {
-        setFeedback(
-          result.message,
-          "error"
-        );
-
-        return;
-      }
-
-      if (
-        state.currentChallenge < 4
-      ) {
-        setFeedback(
-          "Challenge mastered. Loading the next challenge.",
-          "success"
-        );
-
-        state.currentChallenge += 1;
-
-        window.setTimeout(
-          renderCurrentChallenge,
-          650
-        );
-
-        return;
-      }
-
-      state.completedAt =
-        new Date().toISOString();
-
-      showCompletion();
-    }
-
-    function checkSlope() {
-      const response =
-        parseNumericResponse(
-          document.getElementById(
-            "slopeAnswer"
-          ).value
-        );
-
-      if (!response.valid) {
-        return {
-          valid: false,
-          message:
-            "Enter the slope as an integer, fraction, or decimal."
-        };
-      }
-
-      const expected =
-        state.line.numerator /
-        state.line.denominator;
-
-      if (
-        !nearlyEqual(
-          response.value,
-          expected
-        )
-      ) {
-        return {
-          valid: false,
-          message:
-            "The slope is not correct yet. Recheck the rise and run between two labeled points."
-        };
-      }
-
-      return {
-        valid: true
-      };
-    }
-
-    function checkSlopeIntercept() {
-      const slopeResponse =
-        parseNumericResponse(
-          document.getElementById(
-            "slopeCoefficient"
-          ).value
-        );
-
-      const interceptInput =
-        document.getElementById(
-          "interceptAnswer"
-        );
-
-      if (
-        !slopeResponse.valid ||
-        interceptInput.value.trim() === ""
-      ) {
-        return {
-          valid: false,
-          message:
-            "Enter both the slope m and the y-intercept b."
-        };
-      }
-
-      const expectedSlope =
-        state.line.numerator /
-        state.line.denominator;
-
-      if (
-        !nearlyEqual(
-          slopeResponse.value,
-          expectedSlope
-        )
-      ) {
-        return {
-          valid: false,
-          message:
-            "The slope coefficient is not correct. Recheck rise over run."
-        };
-      }
-
-      if (
-        Number(
-          interceptInput.value
-        ) !==
-        state.line.intercept
-      ) {
-        return {
-          valid: false,
-          message:
-            "The y-intercept is not correct. Find where the line crosses the y-axis."
-        };
-      }
-
-      return {
-        valid: true
-      };
-    }
-
-    function checkStandard() {
-      const selected =
-        selectedRadio(
-          "standardChoice"
-        );
-
-      if (selected < 0) {
-        return {
-          valid: false,
-          message:
-            "Select a standard-form equation."
-        };
-      }
-
-      if (
-        !state.standardChoices[
-          selected
-        ].correct
-      ) {
-        return {
-          valid: false,
-          message:
-            "That equation is not equivalent to the graphed line. Recheck the signs and coefficients."
-        };
-      }
-
-      return {
-        valid: true
-      };
-    }
-
-    function checkPointSlope() {
-      const selected =
-        selectedRadio(
-          "pointSlopeChoice"
-        );
-
-      if (selected < 0) {
-        return {
-          valid: false,
-          message:
-            "Select a point-slope equation."
-        };
-      }
-
-      const selectedChoice =
-        state.pointSlopeChoices
-          .choices[selected];
-
-      if (!selectedChoice.correct) {
-        return {
-          valid: false,
-          message:
-            "That equation does not correctly use both Point C and the slope of the graphed line. Recheck the signs in y − y₁ = m(x − x₁)."
-        };
-      }
-
-      return {
-        valid: true
-      };
-    }
-
-    function checkRelationship() {
-      const selected =
-        selectedRadio(
-          "relationshipChoice"
-        );
-
-      if (selected < 0) {
-        return {
-          valid: false,
-          message:
-            "Select an equation for the requested line."
-        };
-      }
-
-      if (
-        !state.relationshipProblem
-          .choices[selected]
-          .correct
-      ) {
-        const relationship =
-          state.relationshipProblem
-            .relationship;
-
-        return {
-          valid: false,
-          message:
-            relationship ===
-            "parallel"
-              ? (
-                "That line does not have the required slope and point. Parallel lines must have equal slopes."
-              )
-              : (
-                "That line does not have the required slope and point. Perpendicular slopes are negative reciprocals."
-              )
-        };
-      }
-
-      return {
-        valid: true
-      };
-    }
-
-    function setFeedback(
-      message,
-      type
-    ) {
-      problemFeedback.className =
-        `feedback ${type}`.trim();
-
-      problemFeedback.textContent =
-        message;
-
-      announce(message);
-    }
-
-    function startActivity() {
-      const firstName =
-        document.getElementById(
-          "firstName"
-        ).value.trim();
-
-      const lastName =
-        document.getElementById(
-          "lastName"
-        ).value.trim();
-
-      if (
-        firstName.length < 2 ||
-        lastName.length < 2
-      ) {
-        const feedback =
-          document.getElementById(
-            "welcomeFeedback"
-          );
-
-        feedback.textContent =
-          "Enter both your first and last name before beginning.";
-
-        feedback.classList.remove(
-          "hidden"
-        );
-
-        return;
-      }
-
-      try {
-        state.studentName =
-          `${firstName} ${lastName}`;
-
-        state.startedAt =
-          new Date().toISOString();
-
-        state.currentChallenge = 0;
-        state.totalChecks = 0;
-
-        state.line =
-          generateValidatedLine();
-
-        state.standardChoices =
-          createStandardChoices(
-            state.line
-          );
-
-        state.pointSlopeChoices =
-          createPointSlopeChoices(
-            state.line
-          );
-
-        if (
-          !validatePointSlopeChallenge(
-            state.line,
-            state.pointSlopeChoices
-          )
-        ) {
-          throw new Error(
-            "Challenge 4 failed point-slope validation."
-          );
-        }
-
-        state.relationshipProblem =
-          generateRelationshipProblem(
-            state.line
-          );
-
-        document.getElementById(
-          "studentStatus"
-        ).textContent =
-          state.studentName;
-
-        welcomeScreen.classList.add(
-          "hidden"
-        );
-
-        activityScreen.classList.remove(
-          "hidden"
-        );
-
-        initializeBoard();
-        renderCurrentChallenge();
-
-        state.timerId =
-          window.setInterval(
-            updateTimer,
-            1000
-          );
-
-        updateTimer();
-      } catch (error) {
-        const feedback =
-          document.getElementById(
-            "welcomeFeedback"
-          );
-
-        feedback.textContent =
-          "The activity could not generate a valid problem. Refresh the page and try again.";
-
-        feedback.classList.remove(
-          "hidden"
-        );
-
-        console.error(error);
-      }
-    }
-
-    function showCompletion() {
-      clearInterval(
-        state.timerId
-      );
-
-      activityScreen.classList.add(
-        "hidden"
-      );
-
-      completionScreen.classList.remove(
-        "hidden"
-      );
-
-      const elapsed =
-        new Date(
-          state.completedAt
-        ).getTime() -
-        new Date(
-          state.startedAt
-        ).getTime();
-
-      document.getElementById(
-        "certificateName"
-      ).textContent =
-        state.studentName;
-
-      document.getElementById(
-        "certificateDate"
-      ).textContent =
-        formatDateOnly(
-          state.completedAt
-        );
-
-      document.getElementById(
-        "certificateVersion"
-      ).textContent =
-        ACTIVITY_VERSION;
-
-      document.getElementById(
-        "certificateStart"
-      ).textContent =
-        formatDateTime(
-          state.startedAt
-        );
-
-      document.getElementById(
-        "certificateCompleted"
-      ).textContent =
-        formatDateTime(
-          state.completedAt
-        );
-
-      document.getElementById(
-        "certificateElapsed"
-      ).textContent =
-        formatElapsed(elapsed);
-
-      document.getElementById(
-        "certificateChecks"
-      ).textContent =
-        String(state.totalChecks);
-
-      document.getElementById(
-        "certificateCode"
-      ).textContent =
-        createVerificationCode();
-
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
-
-      announce(
-        "All five linear graph challenges are mastered."
-      );
-    }
-
-    function updateTimer() {
-      if (!state.startedAt) {
-        return;
-      }
-
-      const end =
-        state.completedAt
-          ? new Date(
-            state.completedAt
-          ).getTime()
-          : Date.now();
-
-      document.getElementById(
-        "elapsedStatus"
-      ).textContent =
-        formatElapsed(
-          end -
-          new Date(
-            state.startedAt
-          ).getTime()
-        );
-    }
-
-    function formatElapsed(
-      milliseconds
-    ) {
-      const totalSeconds =
-        Math.max(
-          0,
-          Math.floor(
-            milliseconds / 1000
-          )
-        );
-
-      const hours =
-        Math.floor(
-          totalSeconds / 3600
-        );
-
-      const minutes =
-        Math.floor(
-          (
-            totalSeconds % 3600
-          ) / 60
-        );
-
-      const seconds =
-        totalSeconds % 60;
-
-      if (hours > 0) {
-        return [
-          hours,
-          String(minutes).padStart(
-            2,
-            "0"
-          ),
-          String(seconds).padStart(
-            2,
-            "0"
-          )
-        ].join(":");
-      }
-
-      return [
-        String(minutes).padStart(
-          2,
-          "0"
-        ),
-        String(seconds).padStart(
-          2,
-          "0"
-        )
-      ].join(":");
-    }
-
-    function formatDateTime(iso) {
-      return new Intl.DateTimeFormat(
-        "en-US",
-        {
-          dateStyle: "medium",
-          timeStyle: "short"
-        }
-      ).format(
-        new Date(iso)
-      );
-    }
-
-    function formatDateOnly(iso) {
-      return new Intl.DateTimeFormat(
-        "en-US",
-        {
-          dateStyle: "long"
-        }
-      ).format(
-        new Date(iso)
-      );
-    }
-
-    function simpleHash(text) {
-      let hash =
-        2166136261;
-
-      for (
-        let index = 0;
-        index < text.length;
-        index += 1
-      ) {
-        hash ^=
-          text.charCodeAt(index);
-
-        hash =
-          Math.imul(
-            hash,
-            16777619
-          );
-      }
-
-      return (
-        hash >>> 0
+      ),
+
+    value
+  };
+}
+
+
+function nearlyEqual(
+  first,
+  second,
+  tolerance=.0001
+){
+  return (
+    Math.abs(
+      first-second
+    )<=
+    tolerance
+  );
+}
+
+
+function checkSlope(){
+  const response =
+    parseNumericResponse(
+      valueOf(
+        "slopeAnswer"
       )
-        .toString(36)
-        .toUpperCase()
-        .padStart(7, "0");
+    );
+
+  if(
+    !response.valid
+  ){
+    return {
+      valid:false,
+
+      message:
+        "Enter the slope as an integer, fraction, or decimal."
+    };
+  }
+
+  const expected =
+    state.line.numerator/
+    state.line.denominator;
+
+  if(
+    !nearlyEqual(
+      response.value,
+      expected
+    )
+  ){
+    return {
+      valid:false,
+
+      message:
+        "The slope is not correct yet. Recheck the rise and run between two labeled points."
+    };
+  }
+
+  return {
+    valid:true
+  };
+}
+
+
+function checkSlopeIntercept(){
+  const slopeResponse =
+    parseNumericResponse(
+      valueOf(
+        "slopeCoefficient"
+      )
+    );
+
+  const interceptText =
+    valueOf(
+      "interceptAnswer"
+    );
+
+  if(
+    !slopeResponse.valid ||
+    interceptText===""
+  ){
+    return {
+      valid:false,
+
+      message:
+        "Enter both the slope m and the y-intercept b."
+    };
+  }
+
+  const expectedSlope =
+    state.line.numerator/
+    state.line.denominator;
+
+  if(
+    !nearlyEqual(
+      slopeResponse.value,
+      expectedSlope
+    )
+  ){
+    return {
+      valid:false,
+
+      message:
+        "The slope coefficient is not correct. Recheck rise over run."
+    };
+  }
+
+  const intercept =
+    Number(
+      interceptText
+    );
+
+  if(
+    !Number.isFinite(
+      intercept
+    ) ||
+    intercept !==
+      state.line.intercept
+  ){
+    return {
+      valid:false,
+
+      message:
+        "The y-intercept is not correct. Find where the line crosses the y-axis."
+    };
+  }
+
+  return {
+    valid:true
+  };
+}
+
+
+function checkStandard(){
+  const selected =
+    selectedRadio(
+      "standardChoice"
+    );
+
+  if(
+    selected<0
+  ){
+    return {
+      valid:false,
+
+      message:
+        "Select a standard-form equation."
+    };
+  }
+
+  if(
+    !state.standardChoices[
+      selected
+    ] ||
+    !state.standardChoices[
+      selected
+    ].correct
+  ){
+    return {
+      valid:false,
+
+      message:
+        "That equation is not equivalent to the graphed line. Recheck the signs and coefficients."
+    };
+  }
+
+  return {
+    valid:true
+  };
+}
+
+
+function checkPointSlope(){
+  const selected =
+    selectedRadio(
+      "pointSlopeChoice"
+    );
+
+  if(
+    selected<0
+  ){
+    return {
+      valid:false,
+
+      message:
+        "Select a point-slope equation."
+    };
+  }
+
+  const selectedChoice =
+    state.pointSlopeChoices
+      .choices[
+        selected
+      ];
+
+  if(
+    !selectedChoice ||
+    !selectedChoice.correct
+  ){
+    return {
+      valid:false,
+
+      message:
+        "That equation does not correctly use both Point C and the slope of the graphed line. Recheck the signs in y − y₁ = m(x − x₁)."
+    };
+  }
+
+  return {
+    valid:true
+  };
+}
+
+
+function checkRelationship(){
+  const selected =
+    selectedRadio(
+      "relationshipChoice"
+    );
+
+  if(
+    selected<0
+  ){
+    return {
+      valid:false,
+
+      message:
+        "Select an equation for the requested line."
+    };
+  }
+
+  const choice =
+    state.relationshipProblem
+      .choices[
+        selected
+      ];
+
+  if(
+    !choice ||
+    !choice.correct
+  ){
+    const relationship =
+      state.relationshipProblem
+        .relationship;
+
+    return {
+      valid:false,
+
+      message:
+        relationship===
+          "parallel"
+          ? "That line does not have the required slope and point. Parallel lines must have equal slopes."
+          : "That line does not have the required slope and point. Perpendicular slopes are negative reciprocals."
+    };
+  }
+
+  return {
+    valid:true
+  };
+}
+
+
+/* ========================================
+   CHECK CURRENT CHALLENGE
+======================================== */
+
+function checkCurrentChallenge(){
+  captureCurrentResponse();
+
+  state.totalChecks +=
+    1;
+
+  document.getElementById(
+    "checksStatus"
+  ).textContent =
+    String(
+      state.totalChecks
+    );
+
+  let result;
+
+  if(
+    state.currentChallenge===
+    0
+  ){
+    result =
+      checkSlope();
+  }else if(
+    state.currentChallenge===
+    1
+  ){
+    result =
+      checkSlopeIntercept();
+  }else if(
+    state.currentChallenge===
+    2
+  ){
+    result =
+      checkStandard();
+  }else if(
+    state.currentChallenge===
+    3
+  ){
+    result =
+      checkPointSlope();
+  }else{
+    result =
+      checkRelationship();
+  }
+
+  /*
+    Preserve what the student has written
+    even on an unsuccessful check.
+  */
+
+  saveCurrentBoardImage();
+  saveState();
+
+  if(
+    !result.valid
+  ){
+    setFeedback(
+      result.message,
+      "error"
+    );
+
+    return;
+  }
+
+  state.mastered[
+    state.currentChallenge
+  ] =
+    true;
+
+  if(
+    state.currentChallenge<
+    4
+  ){
+    setFeedback(
+      "Challenge mastered. Loading the next challenge.",
+      "success"
+    );
+
+    state.currentChallenge +=
+      1;
+
+    saveState();
+
+    window.setTimeout(
+      renderCurrentChallenge,
+      650
+    );
+
+    return;
+  }
+
+  state.completedAt =
+    new Date()
+      .toISOString();
+
+  saveState();
+  showCompletion();
+}
+
+
+function setFeedback(
+  message,
+  type
+){
+  problemFeedback.className =
+    `feedback ${type}`.trim();
+
+  problemFeedback.textContent =
+    message;
+
+  announce(
+    message
+  );
+}
+
+
+/* ========================================
+   START ACTIVITY
+======================================== */
+
+function startActivity(){
+  const firstName =
+    document.getElementById(
+      "firstName"
+    ).value.trim();
+
+  const lastName =
+    document.getElementById(
+      "lastName"
+    ).value.trim();
+
+  if(
+    firstName.length<2 ||
+    lastName.length<2
+  ){
+    const feedback =
+      document.getElementById(
+        "welcomeFeedback"
+      );
+
+    feedback.textContent =
+      "Enter both your first and last name before beginning.";
+
+    feedback.classList.remove(
+      "hidden"
+    );
+
+    return;
+  }
+
+  try{
+    state.firstName =
+      firstName;
+
+    state.lastName =
+      lastName;
+
+    state.studentName =
+      `${firstName} ${lastName}`;
+
+    state.startedAt =
+      new Date()
+        .toISOString();
+
+    state.completedAt =
+      null;
+
+    state.currentChallenge =
+      0;
+
+    state.totalChecks =
+      0;
+
+    state.mastered = [
+      false,
+      false,
+      false,
+      false,
+      false
+    ];
+
+    state.responses = [
+      emptyResponseForChallenge(0),
+      emptyResponseForChallenge(1),
+      emptyResponseForChallenge(2),
+      emptyResponseForChallenge(3),
+      emptyResponseForChallenge(4)
+    ];
+
+    state.boardImages = [
+      "",
+      "",
+      "",
+      "",
+      ""
+    ];
+
+    state.line =
+      generateValidatedLine();
+
+    state.standardChoices =
+      createStandardChoices(
+        state.line
+      );
+
+    state.pointSlopeChoices =
+      createPointSlopeChoices(
+        state.line
+      );
+
+    if(
+      !validatePointSlopeChallenge(
+        state.line,
+        state.pointSlopeChoices
+      )
+    ){
+      throw new Error(
+        "Challenge 4 failed point-slope validation."
+      );
     }
 
-    function createVerificationCode() {
-      const source = [
-        state.studentName,
-        state.startedAt,
-        state.completedAt,
-        state.totalChecks,
-        JSON.stringify(
-          state.line
-        ),
-        state.relationshipProblem
-          .relationship,
-        JSON.stringify(
-          state.relationshipProblem
-            .point
-        ),
-        ACTIVITY_VERSION
-      ].join("::");
+    state.relationshipProblem =
+      generateRelationshipProblem(
+        state.line
+      );
 
-      const dateCode =
-        new Date(
+    document.getElementById(
+      "studentStatus"
+    ).textContent =
+      state.studentName;
+
+    document.getElementById(
+      "checksStatus"
+    ).textContent =
+      "0";
+
+    welcomeScreen.classList.add(
+      "hidden"
+    );
+
+    activityScreen.classList.remove(
+      "hidden"
+    );
+
+    initializeBoard();
+    renderCurrentChallenge();
+
+    state.timerId =
+      window.setInterval(
+        updateTimer,
+        1000
+      );
+
+    updateTimer();
+    saveState();
+
+  }catch(
+    error
+  ){
+    const feedback =
+      document.getElementById(
+        "welcomeFeedback"
+      );
+
+    feedback.textContent =
+      "The activity could not generate a valid problem. Refresh the page and try again.";
+
+    feedback.classList.remove(
+      "hidden"
+    );
+
+    console.error(
+      error
+    );
+  }
+}
+
+
+/* ========================================
+   TIMER / DATE
+======================================== */
+
+function updateTimer(){
+  if(
+    !state.startedAt
+  ){
+    return;
+  }
+
+  const end =
+    state.completedAt
+      ? new Date(
           state.completedAt
-        )
-          .toISOString()
-          .slice(0, 10)
-          .replaceAll("-", "");
+        ).getTime()
+      : Date.now();
 
-      return (
-        `LIN-${dateCode}-` +
-        simpleHash(source)
-      );
+  document.getElementById(
+    "elapsedStatus"
+  ).textContent =
+    formatElapsed(
+      end -
+      new Date(
+        state.startedAt
+      ).getTime()
+    );
+}
+
+
+function formatElapsed(
+  milliseconds
+){
+  const totalSeconds =
+    Math.max(
+      0,
+      Math.floor(
+        milliseconds/
+        1000
+      )
+    );
+
+  const hours =
+    Math.floor(
+      totalSeconds/
+      3600
+    );
+
+  const minutes =
+    Math.floor(
+      (
+        totalSeconds%
+        3600
+      )/
+      60
+    );
+
+  const seconds =
+    totalSeconds%
+    60;
+
+  if(
+    hours>0
+  ){
+    return [
+      hours,
+
+      String(
+        minutes
+      ).padStart(
+        2,
+        "0"
+      ),
+
+      String(
+        seconds
+      ).padStart(
+        2,
+        "0"
+      )
+    ].join(":");
+  }
+
+  return [
+    String(
+      minutes
+    ).padStart(
+      2,
+      "0"
+    ),
+
+    String(
+      seconds
+    ).padStart(
+      2,
+      "0"
+    )
+  ].join(":");
+}
+
+
+function formatDateTime(
+  iso
+){
+  return new Intl.DateTimeFormat(
+    "en-US",
+    {
+      dateStyle:
+        "medium",
+
+      timeStyle:
+        "short"
     }
+  ).format(
+    new Date(
+      iso
+    )
+  );
+}
 
-    function announce(message) {
-      liveStatus.textContent = "";
 
-      window.setTimeout(
-        () => {
-          liveStatus.textContent =
-            message;
-        },
-        25
-      );
+function formatDateOnly(
+  iso
+){
+  return new Intl.DateTimeFormat(
+    "en-US",
+    {
+      dateStyle:
+        "long"
     }
+  ).format(
+    new Date(
+      iso
+    )
+  );
+}
 
-    function initializeBoard() {
-      resizeBoard();
 
-      if (board.initialized) {
-        return;
-      }
+/* ========================================
+   WHITEBOARD
+======================================== */
 
-      board.canvas.addEventListener(
-        "pointerdown",
-        startDrawing
-      );
+function boardStorageKey(
+  challengeIndex
+){
+  return (
+    `${STORAGE_KEY}-board-` +
+    `${challengeIndex}`
+  );
+}
 
-      board.canvas.addEventListener(
-        "pointermove",
-        draw
-      );
 
-      board.canvas.addEventListener(
-        "pointerup",
-        stopDrawing
-      );
+function initializeBoard(){
+  resizeBoard();
 
-      board.canvas.addEventListener(
-        "pointercancel",
-        stopDrawing
-      );
+  if(
+    board.initialized
+  ){
+    return;
+  }
 
-      board.canvas.addEventListener(
-        "pointerleave",
-        stopDrawing
-      );
+  board.canvas.addEventListener(
+    "pointerdown",
+    startDrawing
+  );
 
-      board.initialized = true;
-    }
+  board.canvas.addEventListener(
+    "pointermove",
+    draw
+  );
 
-    function resizeBoard() {
-      const rect =
-        board.wrap
-          .getBoundingClientRect();
+  board.canvas.addEventListener(
+    "pointerup",
+    stopDrawing
+  );
 
-      if (
-        rect.width <= 0 ||
-        rect.height <= 0
-      ) {
-        return;
-      }
+  board.canvas.addEventListener(
+    "pointercancel",
+    stopDrawing
+  );
 
-      const oldImage =
-        board.canvas.width > 0
-          ? board.canvas.toDataURL(
-            "image/png"
-          )
-          : null;
+  board.canvas.addEventListener(
+    "pointerleave",
+    stopDrawing
+  );
 
-      const ratio =
-        window.devicePixelRatio || 1;
+  board.initialized =
+    true;
+}
 
-      board.canvas.width =
-        Math.max(
-          1,
-          Math.round(
-            rect.width * ratio
-          )
-        );
 
-      board.canvas.height =
-        Math.max(
-          1,
-          Math.round(
-            rect.height * ratio
-          )
-        );
+function resizeBoard(){
+  const rect =
+    board.wrap
+      .getBoundingClientRect();
 
-      board.canvas.style.width =
-        `${rect.width}px`;
+  if(
+    rect.width<=1 ||
+    rect.height<=1
+  ){
+    return;
+  }
 
-      board.canvas.style.height =
-        `${rect.height}px`;
-
-      board.context.setTransform(
-        ratio,
-        0,
-        0,
-        ratio,
-        0,
-        0
-      );
-
-      board.context.lineCap =
-        "round";
-
-      board.context.lineJoin =
-        "round";
-
-      if (oldImage) {
-        const image =
-          new Image();
-
-        image.onload = () => {
-          board.context.drawImage(
-            image,
-            0,
-            0,
-            rect.width,
-            rect.height
-          );
-        };
-
-        image.src = oldImage;
-      }
-    }
-
-    function getCanvasPoint(event) {
-      const rect =
-        board.canvas
-          .getBoundingClientRect();
-
-      return {
-        x:
-          event.clientX -
-          rect.left,
-
-        y:
-          event.clientY -
-          rect.top
-      };
-    }
-
-    function pushHistory() {
-      board.history.push(
-        board.canvas.toDataURL(
+  const oldImage =
+    board.canvas.width>1 &&
+    board.canvas.height>1
+      ? board.canvas.toDataURL(
           "image/png"
         )
-      );
+      : null;
 
-      if (
-        board.history.length > 20
-      ) {
-        board.history.shift();
-      }
-    }
+  const ratio =
+    window.devicePixelRatio ||
+    1;
 
-    function startDrawing(event) {
-      event.preventDefault();
+  board.canvas.width =
+    Math.max(
+      1,
+      Math.round(
+        rect.width*
+        ratio
+      )
+    );
 
-      pushHistory();
+  board.canvas.height =
+    Math.max(
+      1,
+      Math.round(
+        rect.height*
+        ratio
+      )
+    );
 
-      const point =
-        getCanvasPoint(event);
+  board.canvas.style.width =
+    `${rect.width}px`;
 
-      board.drawing = true;
-      board.lastX = point.x;
-      board.lastY = point.y;
+  board.canvas.style.height =
+    `${rect.height}px`;
 
-      try {
-        board.canvas
-          .setPointerCapture(
-            event.pointerId
-          );
-      } catch (error) {
-        console.warn(error);
-      }
-    }
+  board.context.setTransform(
+    ratio,
+    0,
+    0,
+    ratio,
+    0,
+    0
+  );
 
-    function draw(event) {
-      if (!board.drawing) {
-        return;
-      }
+  board.context.lineCap =
+    "round";
 
-      event.preventDefault();
+  board.context.lineJoin =
+    "round";
 
-      const point =
-        getCanvasPoint(event);
+  if(
+    oldImage
+  ){
+    const image =
+      new Image();
 
-      board.context.save();
-
-      if (
-        board.tool === "eraser"
-      ) {
-        board.context
-          .globalCompositeOperation =
-          "destination-out";
-
-        board.context.lineWidth =
-          board.lineWidth * 5;
-      } else {
-        board.context
-          .globalCompositeOperation =
-          "source-over";
-
-        board.context.strokeStyle =
-          "#0f2d44";
-
-        board.context.lineWidth =
-          board.lineWidth;
-      }
-
-      board.context.beginPath();
-
-      board.context.moveTo(
-        board.lastX,
-        board.lastY
-      );
-
-      board.context.lineTo(
-        point.x,
-        point.y
-      );
-
-      board.context.stroke();
-      board.context.restore();
-
-      board.lastX = point.x;
-      board.lastY = point.y;
-    }
-
-    function stopDrawing() {
-      board.drawing = false;
-    }
-
-    function restoreCanvas(
-      dataUrl
-    ) {
-      const image =
-        new Image();
-
-      image.onload = () => {
-        const rect =
-          board.canvas
-            .getBoundingClientRect();
-
-        board.context.clearRect(
-          0,
-          0,
-          rect.width,
-          rect.height
-        );
-
+    image.onload =
+      ()=>{
         board.context.drawImage(
           image,
           0,
@@ -3707,40 +4949,352 @@
         );
       };
 
-      image.src = dataUrl;
-    }
+    image.src =
+      oldImage;
+  }
+}
 
-    function undoBoard() {
-      if (
-        board.history.length === 0
-      ) {
-        announce(
-          "There is no earlier whiteboard state to restore."
-        );
 
-        return;
-      }
+function getCanvasPoint(
+  event
+){
+  const rect =
+    board.canvas
+      .getBoundingClientRect();
 
-      restoreCanvas(
-        board.history.pop()
+  return {
+    x:
+      event.clientX-
+      rect.left,
+
+    y:
+      event.clientY-
+      rect.top
+  };
+}
+
+
+function pushHistory(){
+  board.history.push(
+    board.canvas.toDataURL(
+      "image/png"
+    )
+  );
+
+  if(
+    board.history.length>
+    20
+  ){
+    board.history.shift();
+  }
+}
+
+
+function startDrawing(
+  event
+){
+  event.preventDefault();
+
+  pushHistory();
+
+  const point =
+    getCanvasPoint(
+      event
+    );
+
+  board.drawing =
+    true;
+
+  board.lastX =
+    point.x;
+
+  board.lastY =
+    point.y;
+
+  try{
+    board.canvas
+      .setPointerCapture(
+        event.pointerId
       );
+  }catch(
+    error
+  ){
+    console.warn(
+      error
+    );
+  }
+}
+
+
+function draw(
+  event
+){
+  if(
+    !board.drawing
+  ){
+    return;
+  }
+
+  event.preventDefault();
+
+  const point =
+    getCanvasPoint(
+      event
+    );
+
+  board.context.save();
+
+  if(
+    board.tool===
+    "eraser"
+  ){
+    board.context
+      .globalCompositeOperation =
+      "destination-out";
+
+    board.context.lineWidth =
+      board.lineWidth*
+      5;
+  }else{
+    board.context
+      .globalCompositeOperation =
+      "source-over";
+
+    board.context.strokeStyle =
+      "#0f2d44";
+
+    board.context.lineWidth =
+      board.lineWidth;
+  }
+
+  board.context.beginPath();
+
+  board.context.moveTo(
+    board.lastX,
+    board.lastY
+  );
+
+  board.context.lineTo(
+    point.x,
+    point.y
+  );
+
+  board.context.stroke();
+  board.context.restore();
+
+  board.lastX =
+    point.x;
+
+  board.lastY =
+    point.y;
+}
+
+
+function stopDrawing(){
+  if(
+    !board.drawing
+  ){
+    return;
+  }
+
+  board.drawing =
+    false;
+
+  saveCurrentBoardImage();
+}
+
+
+/*
+  Use a normalized snapshot instead of saving the
+  full high-DPI canvas. This keeps five whiteboards
+  comfortably smaller in browser storage while
+  preserving student handwriting for the PDF.
+*/
+
+function captureBoardSnapshot(){
+  const rect =
+    board.canvas
+      .getBoundingClientRect();
+
+  if(
+    rect.width<=1 ||
+    rect.height<=1
+  ){
+    return "";
+  }
+
+  const targetWidth =
+    Math.min(
+      900,
+      Math.max(
+        450,
+        Math.round(
+          rect.width
+        )
+      )
+    );
+
+  const targetHeight =
+    Math.round(
+      targetWidth*
+      rect.height/
+      rect.width
+    );
+
+  const snapshot =
+    document.createElement(
+      "canvas"
+    );
+
+  snapshot.width =
+    targetWidth;
+
+  snapshot.height =
+    targetHeight;
+
+  const context =
+    snapshot.getContext(
+      "2d"
+    );
+
+  context.drawImage(
+    board.canvas,
+    0,
+    0,
+    board.canvas.width,
+    board.canvas.height,
+    0,
+    0,
+    targetWidth,
+    targetHeight
+  );
+
+  return snapshot.toDataURL(
+    "image/png"
+  );
+}
+
+
+function saveCurrentBoardImage(){
+  ensureResponses();
+
+  const image =
+    captureBoardSnapshot();
+
+  if(
+    !image
+  ){
+    return;
+  }
+
+  const index =
+    state.currentChallenge;
+
+  state.boardImages[
+    index
+  ] =
+    image;
+
+  try{
+    localStorage.setItem(
+      boardStorageKey(
+        index
+      ),
+      image
+    );
+  }catch(
+    error
+  ){
+    console.warn(
+      "Whiteboard image could not be stored in localStorage.",
+      error
+    );
+  }
+}
+
+
+function getBoardImage(
+  index
+){
+  ensureResponses();
+
+  if(
+    state.boardImages[
+      index
+    ]
+  ){
+    return state.boardImages[
+      index
+    ];
+  }
+
+  try{
+    const stored =
+      localStorage.getItem(
+        boardStorageKey(
+          index
+        )
+      ) || "";
+
+    if(
+      stored
+    ){
+      state.boardImages[
+        index
+      ] =
+        stored;
     }
 
-    function clearBoard() {
-      const confirmed =
-        window.confirm(
-          "Clear all work from the whiteboard?"
-        );
+    return stored;
 
-      if (!confirmed) {
-        return;
-      }
+  }catch(
+    error
+  ){
+    console.warn(
+      error
+    );
 
-      pushHistory();
+    return "";
+  }
+}
 
+
+function restoreBoardImage(
+  index
+){
+  const image =
+    getBoardImage(
+      index
+    );
+
+  if(
+    image
+  ){
+    restoreCanvas(
+      image
+    );
+  }
+}
+
+
+function restoreCanvas(
+  dataUrl
+){
+  const image =
+    new Image();
+
+  image.onload =
+    ()=>{
       const rect =
         board.canvas
           .getBoundingClientRect();
+
+      if(
+        rect.width<=1 ||
+        rect.height<=1
+      ){
+        return;
+      }
 
       board.context.clearRect(
         0,
@@ -3748,139 +5302,1341 @@
         rect.width,
         rect.height
       );
+
+      board.context.drawImage(
+        image,
+        0,
+        0,
+        rect.width,
+        rect.height
+      );
+    };
+
+  image.src =
+    dataUrl;
+}
+
+
+function undoBoard(){
+  if(
+    board.history.length===
+    0
+  ){
+    announce(
+      "There is no earlier whiteboard state to restore."
+    );
+
+    return;
+  }
+
+  restoreCanvas(
+    board.history.pop()
+  );
+
+  window.setTimeout(
+    saveCurrentBoardImage,
+    100
+  );
+}
+
+
+function clearBoard(){
+  const confirmed =
+    window.confirm(
+      "Clear all work from this whiteboard?"
+    );
+
+  if(
+    !confirmed
+  ){
+    return;
+  }
+
+  pushHistory();
+
+  const rect =
+    board.canvas
+      .getBoundingClientRect();
+
+  board.context.clearRect(
+    0,
+    0,
+    rect.width,
+    rect.height
+  );
+
+  /*
+    Store the cleared state so an earlier image
+    does not reappear after refresh.
+  */
+
+  saveCurrentBoardImage();
+}
+
+
+function resetBoard(){
+  board.history = [];
+  board.tool =
+    "pen";
+
+  const rect =
+    board.canvas
+      .getBoundingClientRect();
+
+  if(
+    rect.width>1 &&
+    rect.height>1
+  ){
+    board.context.clearRect(
+      0,
+      0,
+      rect.width,
+      rect.height
+    );
+  }
+
+  document.getElementById(
+    "penButton"
+  ).classList.add(
+    "active"
+  );
+
+  document.getElementById(
+    "eraserButton"
+  ).classList.remove(
+    "active"
+  );
+}
+
+
+/* ========================================
+   SAVE / RESTORE CORE STATE
+======================================== */
+
+function saveState(){
+  try{
+    /*
+      Board images are saved separately so the
+      core state object stays small and reliable.
+    */
+
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({
+        firstName:
+          state.firstName,
+
+        lastName:
+          state.lastName,
+
+        studentName:
+          state.studentName,
+
+        startedAt:
+          state.startedAt,
+
+        completedAt:
+          state.completedAt,
+
+        currentChallenge:
+          state.currentChallenge,
+
+        totalChecks:
+          state.totalChecks,
+
+        mastered:
+          state.mastered,
+
+        responses:
+          state.responses,
+
+        line:
+          state.line,
+
+        standardChoices:
+          state.standardChoices,
+
+        pointSlopeChoices:
+          state.pointSlopeChoices,
+
+        relationshipProblem:
+          state.relationshipProblem
+      })
+    );
+
+  }catch(
+    error
+  ){
+    console.warn(
+      "Local storage is unavailable.",
+      error
+    );
+  }
+}
+
+
+function restoreState(){
+  try{
+    const stored =
+      localStorage.getItem(
+        STORAGE_KEY
+      );
+
+    if(
+      !stored
+    ){
+      return false;
+    }
+
+    const saved =
+      JSON.parse(
+        stored
+      );
+
+    if(
+      !saved.studentName ||
+      !saved.startedAt ||
+      !saved.line ||
+      !Array.isArray(
+        saved.standardChoices
+      ) ||
+      !saved.pointSlopeChoices ||
+      !saved.relationshipProblem
+    ){
+      return false;
+    }
+
+    Object.assign(
+      state,
+      saved
+    );
+
+    ensureResponses();
+
+    /*
+      Reload separately stored board records.
+    */
+
+    for(
+      let index=0;
+      index<5;
+      index+=1
+    ){
+      try{
+        state.boardImages[
+          index
+        ] =
+          localStorage.getItem(
+            boardStorageKey(
+              index
+            )
+          ) || "";
+      }catch(
+        error
+      ){
+        console.warn(
+          error
+        );
+      }
     }
 
     document.getElementById(
-      "beginButton"
-    ).addEventListener(
-      "click",
-      startActivity
-    );
+      "studentStatus"
+    ).textContent =
+      state.studentName;
 
     document.getElementById(
-      "checkButton"
-    ).addEventListener(
-      "click",
-      checkCurrentChallenge
+      "checksStatus"
+    ).textContent =
+      String(
+        state.totalChecks
+      );
+
+    welcomeScreen.classList.add(
+      "hidden"
     );
 
-    document.getElementById(
-      "penButton"
-    ).addEventListener(
-      "click",
-      event => {
-        board.tool = "pen";
+    if(
+      state.completedAt
+    ){
+      showCompletion();
 
-        document.getElementById(
-          "eraserButton"
-        ).classList.remove(
-          "active"
+      return true;
+    }
+
+    activityScreen.classList.remove(
+      "hidden"
+    );
+
+    initializeBoard();
+    renderCurrentChallenge();
+
+    state.timerId =
+      window.setInterval(
+        updateTimer,
+        1000
+      );
+
+    updateTimer();
+
+    return true;
+
+  }catch(
+    error
+  ){
+    console.warn(
+      "Saved work could not be restored.",
+      error
+    );
+
+    return false;
+  }
+}
+
+
+/* ========================================
+   VERIFICATION CODE
+======================================== */
+
+function simpleHash(
+  text
+){
+  let hash =
+    2166136261;
+
+  for(
+    let index=0;
+    index<
+      text.length;
+    index+=1
+  ){
+    hash ^=
+      text.charCodeAt(
+        index
+      );
+
+    hash =
+      Math.imul(
+        hash,
+        16777619
+      );
+  }
+
+  return (
+    hash>>>0
+  )
+    .toString(36)
+    .toUpperCase()
+    .padStart(
+      7,
+      "0"
+    );
+}
+
+
+function createVerificationCode(){
+  const boardSignature =
+    [0,1,2,3,4]
+      .map(
+        index=>
+          simpleHash(
+            getBoardImage(
+              index
+            )
+          )
+      )
+      .join(":");
+
+  const source = [
+    state.studentName,
+    state.startedAt,
+    state.completedAt,
+    state.totalChecks,
+
+    JSON.stringify(
+      state.line
+    ),
+
+    JSON.stringify(
+      state.standardChoices
+    ),
+
+    JSON.stringify(
+      state.pointSlopeChoices
+    ),
+
+    JSON.stringify(
+      state.relationshipProblem
+    ),
+
+    JSON.stringify(
+      state.responses
+    ),
+
+    boardSignature,
+
+    ACTIVITY_VERSION
+  ].join("::");
+
+  const dateCode =
+    new Date(
+      state.completedAt
+    )
+      .toISOString()
+      .slice(
+        0,
+        10
+      )
+      .replaceAll(
+        "-",
+        ""
+      );
+
+  return (
+    `LIN-${dateCode}-` +
+    simpleHash(
+      source
+    )
+  );
+}
+
+
+/* ========================================
+   REPORT HELPERS
+======================================== */
+
+function setReportText(
+  id,
+  value
+){
+  const element =
+    document.getElementById(
+      id
+    );
+
+  if(
+    element
+  ){
+    element.textContent =
+      value || "—";
+  }
+}
+
+
+function createReportSection(
+  className,
+  title
+){
+  const section =
+    document.createElement(
+      "section"
+    );
+
+  section.className =
+    `report-section ${className}`;
+
+  const heading =
+    document.createElement(
+      "h2"
+    );
+
+  heading.textContent =
+    title;
+
+  section.appendChild(
+    heading
+  );
+
+  return section;
+}
+
+
+function addReportField(
+  parent,
+  label,
+  value
+){
+  const heading =
+    document.createElement(
+      "p"
+    );
+
+  heading.className =
+    "report-label";
+
+  heading.textContent =
+    label;
+
+  const response =
+    document.createElement(
+      "div"
+    );
+
+  response.className =
+    "report-response";
+
+  response.textContent =
+    value || "—";
+
+  parent.append(
+    heading,
+    response
+  );
+}
+
+
+function addReportPrompt(
+  parent,
+  text
+){
+  const prompt =
+    document.createElement(
+      "div"
+    );
+
+  prompt.className =
+    "report-prompt";
+
+  prompt.textContent =
+    text;
+
+  parent.appendChild(
+    prompt
+  );
+}
+
+
+function addWhiteboardReport(
+  parent,
+  index
+){
+  const wrapper =
+    document.createElement(
+      "div"
+    );
+
+  wrapper.className =
+    "whiteboard-report";
+
+  const label =
+    document.createElement(
+      "p"
+    );
+
+  label.className =
+    "report-label";
+
+  label.textContent =
+    `Student whiteboard work — Challenge ${index+1}`;
+
+  wrapper.appendChild(
+    label
+  );
+
+  const image =
+    getBoardImage(
+      index
+    );
+
+  if(
+    image
+  ){
+    const img =
+      document.createElement(
+        "img"
+      );
+
+    img.src =
+      image;
+
+    img.alt =
+      `Student whiteboard work for Challenge ${index+1}`;
+
+    wrapper.appendChild(
+      img
+    );
+
+  }else{
+    const missing =
+      document.createElement(
+        "div"
+      );
+
+    missing.className =
+      "whiteboard-missing";
+
+    missing.textContent =
+      "No whiteboard image was saved for this challenge.";
+
+    wrapper.appendChild(
+      missing
+    );
+  }
+
+  parent.appendChild(
+    wrapper
+  );
+}
+
+
+/* ========================================
+   BUILD FINAL CHALLENGE REPORTS
+======================================== */
+
+function buildChallengeReports(){
+  ensureResponses();
+
+  const container =
+    document.getElementById(
+      "challengeReports"
+    );
+
+  container.innerHTML =
+    "";
+
+
+  /* Challenge 1 */
+
+  {
+    const response =
+      state.responses[
+        0
+      ];
+
+    const section =
+      createReportSection(
+        "green",
+        "Challenge 1: Calculate the Slope"
+      );
+
+    addReportPrompt(
+      section,
+      (
+        `Use labeled points on the shared graph to calculate slope. ` +
+        `Point A = (${state.line.xPoint.x}, ${state.line.xPoint.y}), ` +
+        `Point B = (${state.line.yPoint.x}, ${state.line.yPoint.y}), ` +
+        `Point C = (${state.line.thirdPoint.x}, ${state.line.thirdPoint.y}).`
+      )
+    );
+
+    addReportField(
+      section,
+      "Student slope response",
+      response.slopeAnswer
+    );
+
+    addWhiteboardReport(
+      section,
+      0
+    );
+
+    container.appendChild(
+      section
+    );
+  }
+
+
+  /* Challenge 2 */
+
+  {
+    const response =
+      state.responses[
+        1
+      ];
+
+    const section =
+      createReportSection(
+        "purple",
+        "Challenge 2: Write Slope-Intercept Form"
+      );
+
+    addReportPrompt(
+      section,
+      "Complete the equation y = mx + b using the shared graph."
+    );
+
+    addReportField(
+      section,
+      "Student slope coefficient, m",
+      response.slopeCoefficient
+    );
+
+    addReportField(
+      section,
+      "Student y-intercept, b",
+      response.interceptAnswer
+    );
+
+    addReportField(
+      section,
+      "Student completed equation",
+      (
+        response.slopeCoefficient &&
+        response.interceptAnswer!==""
+          ? (
+              `y = ${response.slopeCoefficient}x ` +
+              (
+                Number(
+                  response.interceptAnswer
+                )>=0
+                  ? `+ ${response.interceptAnswer}`
+                  : `- ${Math.abs(Number(response.interceptAnswer))}`
+              )
+            )
+          : "—"
+      )
+    );
+
+    addWhiteboardReport(
+      section,
+      1
+    );
+
+    container.appendChild(
+      section
+    );
+  }
+
+
+  /* Challenge 3 */
+
+  {
+    const response =
+      state.responses[
+        2
+      ];
+
+    const section =
+      createReportSection(
+        "yellow",
+        "Challenge 3: Select the Standard Form"
+      );
+
+    addReportPrompt(
+      section,
+      "Select the standard-form equation Ax + By = C that is equivalent to the shared graphed line."
+    );
+
+    let selectedEquation =
+      "—";
+
+    if(
+      response.standardChoice !==
+        null &&
+      state.standardChoices[
+        response.standardChoice
+      ]
+    ){
+      selectedEquation =
+        state.standardChoices[
+          response.standardChoice
+        ].text;
+    }
+
+    addReportField(
+      section,
+      "Student selected equation",
+      selectedEquation
+    );
+
+    addWhiteboardReport(
+      section,
+      2
+    );
+
+    container.appendChild(
+      section
+    );
+  }
+
+
+  /* Challenge 4 */
+
+  {
+    const response =
+      state.responses[
+        3
+      ];
+
+    const point =
+      state.pointSlopeChoices
+        .point;
+
+    const section =
+      createReportSection(
+        "green",
+        "Challenge 4: Point-Slope Form Using Point C"
+      );
+
+    addReportPrompt(
+      section,
+      (
+        `Use Point C (${point.x}, ${point.y}) and the slope ` +
+        `of the graphed line in y − y₁ = m(x − x₁).`
+      )
+    );
+
+    let selectedEquation =
+      "—";
+
+    if(
+      response.pointSlopeChoice !==
+        null &&
+      state.pointSlopeChoices
+        .choices[
+          response.pointSlopeChoice
+        ]
+    ){
+      selectedEquation =
+        state.pointSlopeChoices
+          .choices[
+            response.pointSlopeChoice
+          ].text;
+    }
+
+    addReportField(
+      section,
+      "Student selected point-slope equation",
+      selectedEquation
+    );
+
+    addWhiteboardReport(
+      section,
+      3
+    );
+
+    container.appendChild(
+      section
+    );
+  }
+
+
+  /* Challenge 5 */
+
+  {
+    const response =
+      state.responses[
+        4
+      ];
+
+    const problem =
+      state.relationshipProblem;
+
+    const section =
+      createReportSection(
+        "purple",
+        "Challenge 5: Parallel and Perpendicular Lines"
+      );
+
+    addReportPrompt(
+      section,
+      (
+        `Find a line ${problem.relationship} to the shared line ` +
+        `that passes through (${problem.point.x}, ${problem.point.y}).`
+      )
+    );
+
+    addReportField(
+      section,
+      "Requested relationship",
+      problem.relationship
+        .charAt(0)
+        .toUpperCase() +
+      problem.relationship
+        .slice(1)
+    );
+
+    addReportField(
+      section,
+      "Required point",
+      `(${problem.point.x}, ${problem.point.y})`
+    );
+
+    let selectedEquation =
+      "—";
+
+    if(
+      response.relationshipChoice !==
+        null &&
+      problem.choices[
+        response.relationshipChoice
+      ]
+    ){
+      selectedEquation =
+        problem.choices[
+          response.relationshipChoice
+        ].text;
+    }
+
+    addReportField(
+      section,
+      "Student selected equation",
+      selectedEquation
+    );
+
+    addWhiteboardReport(
+      section,
+      4
+    );
+
+    container.appendChild(
+      section
+    );
+  }
+}
+
+
+/* ========================================
+   POPULATE COMPLETION REPORT
+======================================== */
+
+function populateCompletionReport(){
+  const elapsed =
+    new Date(
+      state.completedAt
+    ).getTime() -
+    new Date(
+      state.startedAt
+    ).getTime();
+
+  const code =
+    createVerificationCode();
+
+  setReportText(
+    "reportStudent",
+    state.studentName
+  );
+
+  setReportText(
+    "reportDate",
+    formatDateOnly(
+      state.completedAt
+    )
+  );
+
+  setReportText(
+    "reportStarted",
+    formatDateTime(
+      state.startedAt
+    )
+  );
+
+  setReportText(
+    "reportCompleted",
+    formatDateTime(
+      state.completedAt
+    )
+  );
+
+  setReportText(
+    "reportElapsed",
+    formatElapsed(
+      elapsed
+    )
+  );
+
+  setReportText(
+    "reportChecks",
+    String(
+      state.totalChecks
+    )
+  );
+
+  setReportText(
+    "reportVersion",
+    ACTIVITY_VERSION
+  );
+
+  setReportText(
+    "reportCode",
+    code
+  );
+
+
+  document.getElementById(
+    "reportGraph"
+  ).innerHTML =
+    graphSvg(
+      state.line,
+      "completion"
+    );
+
+
+  document.getElementById(
+    "reportPoints"
+  ).innerHTML = `
+    <div class="report-point">
+      A (${state.line.xPoint.x}, ${state.line.xPoint.y})
+    </div>
+
+    <div class="report-point">
+      B (${state.line.yPoint.x}, ${state.line.yPoint.y})
+    </div>
+
+    <div class="report-point">
+      C (${state.line.thirdPoint.x}, ${state.line.thirdPoint.y})
+    </div>
+  `;
+
+
+  buildChallengeReports();
+
+
+  setReportText(
+    "certificateName",
+    state.studentName
+  );
+
+  setReportText(
+    "certificateDate",
+    formatDateOnly(
+      state.completedAt
+    )
+  );
+
+  setReportText(
+    "certificateVersion",
+    ACTIVITY_VERSION
+  );
+
+  setReportText(
+    "certificateStart",
+    formatDateTime(
+      state.startedAt
+    )
+  );
+
+  setReportText(
+    "certificateCompleted",
+    formatDateTime(
+      state.completedAt
+    )
+  );
+
+  setReportText(
+    "certificateElapsed",
+    formatElapsed(
+      elapsed
+    )
+  );
+
+  setReportText(
+    "certificateChecks",
+    String(
+      state.totalChecks
+    )
+  );
+
+  setReportText(
+    "certificateCode",
+    code
+  );
+}
+
+
+function showCompletion(){
+  if(
+    state.timerId
+  ){
+    clearInterval(
+      state.timerId
+    );
+  }
+
+  updateTimer();
+
+  welcomeScreen.classList.add(
+    "hidden"
+  );
+
+  activityScreen.classList.add(
+    "hidden"
+  );
+
+  completionScreen.classList.remove(
+    "hidden"
+  );
+
+  populateCompletionReport();
+  saveState();
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+  announce(
+    "All five linear graph challenges are mastered. Your full submission report and completion certificate are ready."
+  );
+}
+
+
+/* ========================================
+   PRINT IMAGE READINESS
+======================================== */
+
+function waitForReportImages(){
+  const images =
+    [
+      ...document.querySelectorAll(
+        "#completionScreen img"
+      )
+    ];
+
+  return Promise.all(
+    images.map(
+      image=>{
+        if(
+          image.complete
+        ){
+          return Promise.resolve();
+        }
+
+        return new Promise(
+          resolve=>{
+            image.addEventListener(
+              "load",
+              resolve,
+              {
+                once:true
+              }
+            );
+
+            image.addEventListener(
+              "error",
+              resolve,
+              {
+                once:true
+              }
+            );
+          }
         );
-
-        event.currentTarget
-          .classList.add(
-            "active"
-          );
       }
+    )
+  );
+}
+
+
+/* ========================================
+   RESET
+======================================== */
+
+function resetActivity(){
+  const confirmed =
+    window.confirm(
+      "Start a new attempt with a new randomized graph? This will erase all saved responses, whiteboard work, and the current completion certificate on this device."
     );
+
+  if(
+    !confirmed
+  ){
+    return;
+  }
+
+  try{
+    localStorage.removeItem(
+      STORAGE_KEY
+    );
+
+    for(
+      let index=0;
+      index<5;
+      index+=1
+    ){
+      localStorage.removeItem(
+        boardStorageKey(
+          index
+        )
+      );
+    }
+
+  }catch(
+    error
+  ){
+    console.warn(
+      error
+    );
+  }
+
+  window.location.reload();
+}
+
+
+/* ========================================
+   ACCESSIBILITY
+======================================== */
+
+function announce(
+  message
+){
+  liveStatus.textContent =
+    "";
+
+  window.setTimeout(
+    ()=>{
+      liveStatus.textContent =
+        message;
+    },
+    25
+  );
+}
+
+
+/* ========================================
+   EVENTS
+======================================== */
+
+document.getElementById(
+  "beginButton"
+).addEventListener(
+  "click",
+  startActivity
+);
+
+
+document.getElementById(
+  "checkButton"
+).addEventListener(
+  "click",
+  checkCurrentChallenge
+);
+
+
+document.getElementById(
+  "penButton"
+).addEventListener(
+  "click",
+  event=>{
+    board.tool =
+      "pen";
 
     document.getElementById(
       "eraserButton"
-    ).addEventListener(
-      "click",
-      event => {
-        board.tool = "eraser";
-
-        document.getElementById(
-          "penButton"
-        ).classList.remove(
-          "active"
-        );
-
-        event.currentTarget
-          .classList.add(
-            "active"
-          );
-      }
+    ).classList.remove(
+      "active"
     );
+
+    event.currentTarget
+      .classList.add(
+        "active"
+      );
+  }
+);
+
+
+document.getElementById(
+  "eraserButton"
+).addEventListener(
+  "click",
+  event=>{
+    board.tool =
+      "eraser";
 
     document.getElementById(
-      "lineWidth"
-    ).addEventListener(
-      "change",
-      event => {
-        board.lineWidth =
-          Number(
-            event.target.value
-          );
-      }
+      "penButton"
+    ).classList.remove(
+      "active"
     );
 
-    document.getElementById(
-      "undoButton"
-    ).addEventListener(
-      "click",
-      undoBoard
+    event.currentTarget
+      .classList.add(
+        "active"
+      );
+  }
+);
+
+
+document.getElementById(
+  "lineWidth"
+).addEventListener(
+  "change",
+  event=>{
+    board.lineWidth =
+      Number(
+        event.target.value
+      );
+  }
+);
+
+
+document.getElementById(
+  "undoButton"
+).addEventListener(
+  "click",
+  undoBoard
+);
+
+
+document.getElementById(
+  "clearButton"
+).addEventListener(
+  "click",
+  clearBoard
+);
+
+
+document.getElementById(
+  "gridButton"
+).addEventListener(
+  "click",
+  event=>{
+    board.wrap.classList.toggle(
+      "grid"
     );
 
-    document.getElementById(
-      "clearButton"
-    ).addEventListener(
-      "click",
-      clearBoard
-    );
+    event.currentTarget
+      .classList.toggle(
+        "active"
+      );
+  }
+);
 
-    document.getElementById(
-      "gridButton"
-    ).addEventListener(
-      "click",
-      event => {
-        board.wrap.classList.toggle(
-          "grid"
-        );
 
-        event.currentTarget
-          .classList.toggle(
-            "active"
-          );
-      }
-    );
+document.getElementById(
+  "printButton"
+).addEventListener(
+  "click",
+  async ()=>{
+    populateCompletionReport();
 
-    document.getElementById(
-      "printButton"
-    ).addEventListener(
-      "click",
-      () => window.print()
-    );
+    await waitForReportImages();
 
-    document.getElementById(
-      "newAttemptButton"
-    ).addEventListener(
-      "click",
-      () => {
-        const confirmed =
-          window.confirm(
-            "Start a new attempt with a new randomized graph?"
-          );
+    window.print();
+  }
+);
 
-        if (confirmed) {
-          window.location.reload();
-        }
-      }
-    );
 
-    window.addEventListener(
-      "resize",
-      () => {
-        if (
-          !activityScreen
-            .classList
-            .contains("hidden")
-        ) {
-          resizeBoard();
-        }
-      }
-    );
-  </script>
+document.getElementById(
+  "newAttemptButton"
+).addEventListener(
+  "click",
+  resetActivity
+);
+
+
+window.addEventListener(
+  "resize",
+  ()=>{
+    if(
+      !activityScreen
+        .classList
+        .contains(
+          "hidden"
+        )
+    ){
+      resizeBoard();
+    }
+  }
+);
+
+
+/* ========================================
+   INITIALIZE
+======================================== */
+
+restoreState();
+
+</script>
+
 </body>
 </html>
